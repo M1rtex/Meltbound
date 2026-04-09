@@ -4,8 +4,8 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
-    [SerializeField] private float speed = 10f;
-    [SerializeField] private float jumpForce = 24f;
+    [SerializeField] private float speed = 0.01f;
+    [SerializeField] private float jumpForce = 0.01f;
 
     [Header("Detection Settings")]
     [SerializeField] private Transform groundCheck; // Пустой объект в ногах игрока
