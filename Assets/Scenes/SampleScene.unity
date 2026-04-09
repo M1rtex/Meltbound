@@ -592,8 +592,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d3faacee93f54543a30c33328cc5699, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  speed: 1
-  jumpForce: 2
+  speed: 2
+  jumpForce: 5
   groundCheck: {fileID: 1062409120}
   checkSize: {x: 0.5, y: 0.1}
   groundLayer:
