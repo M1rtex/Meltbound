@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask WallLayer;
 
     private Rigidbody2D rb;
+    private Animator animator;
     private float horizontalInput;
     private bool isWallJumping;
     private bool isFacingRight = true;
@@ -28,6 +29,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -38,6 +40,8 @@ public class PlayerMovement : MonoBehaviour
             if (horizontalInput > 0 && !isFacingRight) Flip();
             else if (horizontalInput < 0 && isFacingRight) Flip();
         }
+
+        animator.SetBool("PlayerRun", horizontalInput != 0);
     }
 
     private void Flip()

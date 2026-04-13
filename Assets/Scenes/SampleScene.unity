@@ -821,6 +821,7 @@ GameObject:
   - component: {fileID: 566460256}
   - component: {fileID: 566460260}
   - component: {fileID: 566460262}
+  - component: {fileID: 566460263}
   m_Layer: 0
   m_Name: snowman_0
   m_TagString: Untagged
@@ -877,7 +878,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -6543393951714099525, guid: 6aeb3492908ad9047838f400d64356d5, type: 3}
+  m_Sprite: {fileID: 2207005293048092257, guid: 030a5ef778111c14a8fe6beaac263c8b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -927,7 +928,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
@@ -993,7 +994,7 @@ Camera:
   m_ShutterSpeed: 0.005
   m_Aperture: 16
   m_FocusDistance: 10
-  m_FocalLength: 50
+  m_FocalLength: 20.78461
   m_BladeCount: 5
   m_Curvature: {x: 2, y: 11}
   m_BarrelClipping: 0.25
@@ -1008,7 +1009,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 60.000004
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -1119,7 +1120,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.36, y: 0.5}
+    oldSize: {x: 0.36, y: 0.53}
     newSize: {x: 0.36, y: 0.5}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -1127,6 +1128,28 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.3, y: 0.5}
   m_EdgeRadius: 0
+--- !u!95 &566460263
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 566460253}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 29531cb8eb8744948afb9d3e833bc966, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &654366499 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1504897060912144226, guid: 4b7fa15dc90f44f5bad1bfa9194725ee, type: 3}
@@ -1652,7 +1675,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2682622897406327150, guid: c691a31223fa37f4690f2587183854fd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.25399995
+      value: -0.2559
       objectReference: {fileID: 0}
     - target: {fileID: 2682622897406327150, guid: c691a31223fa37f4690f2587183854fd, type: 3}
       propertyPath: m_LocalPosition.z

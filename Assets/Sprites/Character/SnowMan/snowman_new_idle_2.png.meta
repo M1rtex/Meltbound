@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 6aeb3492908ad9047838f400d64356d5
+guid: 82c85851a96b94c46abbf77dd919bdd5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6543393951714099525
-    second: snowman_0
+      213: 634748347628879689
+    second: snowman_new_idle_2_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -139,13 +139,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: snowman_0
+      name: snowman_new_idle_2_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 36
-        height: 50
+        height: 53
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,8 +154,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bbe34aa8ed13135a0800000000000000
-      internalID: -6543393951714099525
+      spriteID: 94f7f2652441fc800800000000000000
+      internalID: 634748347628879689
       vertices: []
       indices: 
       edges: []
@@ -174,7 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      snowman_0: -6543393951714099525
+      snowman_new_idle_2_0: 634748347628879689
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
