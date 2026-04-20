@@ -392,11 +392,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8150542722344881229, guid: 4b7fa15dc90f44f5bad1bfa9194725ee, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.26209545
+      value: -0.262
       objectReference: {fileID: 0}
     - target: {fileID: 8150542722344881229, guid: 4b7fa15dc90f44f5bad1bfa9194725ee, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.4150037
+      value: -0.545
       objectReference: {fileID: 0}
     - target: {fileID: 8150542722344881229, guid: 4b7fa15dc90f44f5bad1bfa9194725ee, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1517,8 +1517,8 @@ Transform:
   m_GameObject: {fileID: 874767710}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0167, y: -2.584, z: 0}
-  m_LocalScale: {x: 3.105909, y: 0.77759093, z: 1}
+  m_LocalPosition: {x: 2.61, y: -2.72, z: 0}
+  m_LocalScale: {x: 0.95537764, y: 0.60379934, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1762,7 +1762,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2682622897406327150, guid: c691a31223fa37f4690f2587183854fd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10.080019
+      value: 10.173
       objectReference: {fileID: 0}
     - target: {fileID: 2682622897406327150, guid: c691a31223fa37f4690f2587183854fd, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1800,6 +1800,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5794948806157164908, guid: c691a31223fa37f4690f2587183854fd, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9105595041037067294, guid: c691a31223fa37f4690f2587183854fd, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -1807,10 +1811,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 9105595041037067294, guid: c691a31223fa37f4690f2587183854fd, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1705006632}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c691a31223fa37f4690f2587183854fd, type: 3}
 --- !u!1 &1507964694 stripped
 GameObject:
@@ -1939,57 +1940,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 2075571560}
   m_SourcePrefab: {fileID: 100100000, guid: 122284b65ccee487f87e382d60ac31ff, type: 3}
---- !u!1 &1705006630 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9105595041037067294, guid: c691a31223fa37f4690f2587183854fd, type: 3}
-  m_PrefabInstance: {fileID: 1376738966}
-  m_PrefabAsset: {fileID: 0}
---- !u!61 &1705006632
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1705006630}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0.55999994, y: 0.08}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 1.4399999, y: 0.16}
-  m_EdgeRadius: 0
 --- !u!1 &1990044630
 GameObject:
   m_ObjectHideFlags: 0
@@ -2286,7 +2236,7 @@ Transform:
   m_GameObject: {fileID: 2088008335}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.18, y: 4.92, z: 0}
+  m_LocalPosition: {x: 6.11, y: 4.92, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2302,9 +2252,9 @@ SceneRoots:
   - {fileID: 566460255}
   - {fileID: 1990044634}
   - {fileID: 137818061}
+  - {fileID: 231290990}
   - {fileID: 1376738966}
   - {fileID: 1265243659}
-  - {fileID: 231290990}
   - {fileID: 78616720}
   - {fileID: 263059696}
   - {fileID: 1241624821}
