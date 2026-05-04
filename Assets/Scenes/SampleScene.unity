@@ -932,10 +932,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   groundCheck: {fileID: 1062409120}
-  groundCheckSize: {x: 0.25, y: 0.1}
+  groundCheckSize: {x: 0.2, y: 0.05}
   wallCheck: {fileID: 513898868}
-  wallCheckSize: {x: 0.15, y: 0.47}
-  wallCheckOffset: 0.13
+  wallCheckSize: {x: 0.04, y: 0.45}
+  wallCheckOffset: 0.1
 --- !u!61 &566460262
 BoxCollider2D:
   m_ObjectHideFlags: 0
