@@ -1978,7 +1978,7 @@ GameObject:
   - component: {fileID: 921112173}
   - component: {fileID: 921112172}
   - component: {fileID: 921112174}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
