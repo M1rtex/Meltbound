@@ -1,29 +1,32 @@
-﻿using System.Collections;
-using System.Threading;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
-    [SerializeField] private float speed = 0.01f;
-    [SerializeField] private float jumpForce = 0.01f;
+    [SerializeField] private float speed = 5f;
+    [SerializeField] private float jumpForce = 10f;
 
-    [Header("Wall Jump")]
-    [SerializeField] private Vector2 wallJumpPower = new Vector2(2f, 6f); // Сила отскока (X - в сторону, Y - вверх)
-    [SerializeField] private float wallJumpDuration = 0.1f; // Время блокировки управления
+    [Header("Wall Jump Settings")]
+    [SerializeField] private Vector2 wallJumpPower = new Vector2(5f, 10f);
+    [SerializeField] private float wallJumpDuration = 0.2f;
 
     [Header("Detection Settings")]
-    [SerializeField] private Transform groundCheck; // Пустой объект в ногах игрока
+    [SerializeField] private LayerMask environmentLayer;
+    
+    [Header("Ground Check")]
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private Vector2 groundCheckSize = new Vector2(0.4f, 0.1f);
+    
+    [Header("Wall Check (Кубы)")][Tooltip("Объект wallCheck должен быть РОВНО В ЦЕНТРЕ персонажа")]
     [SerializeField] private Transform wallCheck;
-    [SerializeField] private Vector2 checkSize = new Vector2(0.3f, 0.1f);
-    [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private LayerMask WallLayer;
+    [SerializeField] private Vector2 wallCheckSize = new Vector2(0.15f, 0.5f); // Размер кубов (ширина, высота)
+    [SerializeField] private float wallCheckOffset = 0.3f; // На сколько кубы сдвинуты влево и вправо от центра
 
     private Rigidbody2D rb;
     private Animator animator;
     private float horizontalInput;
-    private bool isWallJumping;
+    private float wallJumpTimer;
     private bool isFacingRight = true;
 
     private void Awake()
@@ -34,34 +37,41 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        // Проверяем ввод и текущее направление
-        if (!isWallJumping) 
+        if (wallJumpTimer > 0)
+        {
+            wallJumpTimer -= Time.deltaTime;
+        }
+        else
         {
             if (horizontalInput > 0 && !isFacingRight) Flip();
             else if (horizontalInput < 0 && isFacingRight) Flip();
         }
 
-        animator.SetBool("PlayerRun", horizontalInput != 0);
+        if (animator != null)
+            animator.SetBool("PlayerRun", horizontalInput != 0);
+    }
+
+    private void FixedUpdate()
+    {
+        if (wallJumpTimer <= 0)
+        {
+            rb.linearVelocity = new Vector2(horizontalInput * speed, rb.linearVelocity.y);
+        }
     }
 
     private void Flip()
     {
-        // Меняем логическое состояние
         isFacingRight = !isFacingRight;
-
-        // Получаем текущий масштаб и инвертируем X
         Vector3 localScale = transform.localScale;
         localScale.x *= -1f;
         transform.localScale = localScale;
     }
 
-    // Метод для движения (WASD)
     public void OnMove(InputValue value)
     {
         horizontalInput = value.Get<Vector2>().x;
     }
 
-    // Метод для прыжка (Space)
     public void OnJump(InputValue value)
     {
         if (!value.isPressed) return;
@@ -70,57 +80,65 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         }
-        else if (IsWalled())
+        else if (IsWalledLeft() || IsWalledRight())
         {
-            StartCoroutine(WallJump());
+            WallJump();
         }
     }
-    
-    private IEnumerator WallJump()
+
+    private void WallJump()
     {
-        isWallJumping = true;
+        wallJumpTimer = wallJumpDuration;
         
-        // Определяем направление отскока: если стена справа, прыгаем влево (-1), и наоборот
-        float wallDirection = IsWalledRight() ? -1f : 1f;
+        // Если стена слева, то толкаем вправо (1). Иначе толкаем влево (-1).
+        float wallDirection = IsWalledLeft() ? 1f : -1f;
         
-        // Применяем силу отскока
         rb.linearVelocity = new Vector2(wallDirection * wallJumpPower.x, wallJumpPower.y);
         
-        // Поворачиваем персонажа в сторону прыжка (опционально)
-        Flip();
+        if (wallDirection > 0 && !isFacingRight) Flip();
+        else if (wallDirection < 0 && isFacingRight) Flip();
+    }
 
-        yield return new WaitForSeconds(wallJumpDuration);
-        
-        isWallJumping = false;
-    }
-    
-    private void FixedUpdate()
-    {
-        if (!isWallJumping)
-        {
-            rb.linearVelocity = new Vector2(horizontalInput * speed, rb.linearVelocity.y);
-        }
-    }
+    // --- ПРОВЕРКИ ---
 
     private bool IsGrounded()
     {
-        // Создаем невидимую зону в ногах для проверки слоя Ground
-        return Physics2D.OverlapBox(groundCheck.position, checkSize, 0f, groundLayer) || 
-            Physics2D.OverlapBox(groundCheck.position, checkSize, 0f, WallLayer);
+        return Physics2D.OverlapBox(groundCheck.position, groundCheckSize, 0f, environmentLayer);
     }
 
-    private bool IsWalled() => Physics2D.OverlapCircle(wallCheck.position, 0.2f, WallLayer);
+    private bool IsWalledLeft()
+    {
+        // Создаем координату для левого куба
+        Vector2 leftPosition = (Vector2)wallCheck.position + (Vector2.left * wallCheckOffset);
+        return Physics2D.OverlapBox(leftPosition, wallCheckSize, 0f, environmentLayer);
+    }
 
     private bool IsWalledRight()
     {
-        // Проверяем наличие коллайдера чуть правее центра игрока
-        return Physics2D.Raycast(transform.position, Vector2.right, 0.6f, WallLayer);
+        // Создаем координату для правого куба
+        Vector2 rightPosition = (Vector2)wallCheck.position + (Vector2.right * wallCheckOffset);
+        return Physics2D.OverlapBox(rightPosition, wallCheckSize, 0f, environmentLayer);
     }
 
-    // Отрисовка зоны проверки в редакторе для удобства
-    private void OnDrawGizmos()
+    // --- ОТРИСОВКА В РЕДАКТОРЕ (GIZMOS) ---
+
+    private void OnDrawGizmosSelected()
     {
-        if (groundCheck) Gizmos.DrawWireCube(groundCheck.position, checkSize);
-        if (wallCheck) Gizmos.DrawWireSphere(wallCheck.position, 0.2f);
+        // Рисуем землю
+        Gizmos.color = Color.green;
+        if (groundCheck) Gizmos.DrawWireCube(groundCheck.position, groundCheckSize);
+        
+        // Рисуем стены
+        Gizmos.color = Color.red;
+        if (wallCheck)
+        {
+            // Левый куб
+            Vector2 leftPos = (Vector2)wallCheck.position + (Vector2.left * wallCheckOffset);
+            Gizmos.DrawWireCube(leftPos, wallCheckSize);
+
+            // Правый куб
+            Vector2 rightPos = (Vector2)wallCheck.position + (Vector2.right * wallCheckOffset);
+            Gizmos.DrawWireCube(rightPos, wallCheckSize);
+        }
     }
 }
