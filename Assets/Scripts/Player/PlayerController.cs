@@ -4,24 +4,29 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
-    [SerializeField] private float speed = 5f; // Поставил 5f, так как 0.01f обычно слишком мало
+    [SerializeField] private float speed = 5f;
     [SerializeField] private float jumpForce = 10f;
 
-    [Header("Wall Jump")]
-    [SerializeField] private Vector2 wallJumpPower = new Vector2(5f, 10f); // Сила отскока (X - от стены, Y - вверх)
-    [SerializeField] private float wallJumpDuration = 0.2f; // Время блокировки управления
+    [Header("Wall Jump Settings")]
+    [SerializeField] private Vector2 wallJumpPower = new Vector2(5f, 10f);
+    [SerializeField] private float wallJumpDuration = 0.2f;
 
     [Header("Detection Settings")]
-    [SerializeField] private LayerMask environmentLayer; // ЕДИНЫЙ слой для земли и стен
+    [SerializeField] private LayerMask environmentLayer;
+    
+    [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private Vector2 groundCheckSize = new Vector2(0.4f, 0.1f);
+    
+    [Header("Wall Check (Кубы)")][Tooltip("Объект wallCheck должен быть РОВНО В ЦЕНТРЕ персонажа")]
     [SerializeField] private Transform wallCheck;
-    [SerializeField] private float wallCheckRadius = 0.2f;
+    [SerializeField] private Vector2 wallCheckSize = new Vector2(0.15f, 0.5f); // Размер кубов (ширина, высота)
+    [SerializeField] private float wallCheckOffset = 0.3f; // На сколько кубы сдвинуты влево и вправо от центра
 
     private Rigidbody2D rb;
     private Animator animator;
     private float horizontalInput;
-    private float wallJumpTimer; // Замена корутине
+    private float wallJumpTimer;
     private bool isFacingRight = true;
 
     private void Awake()
@@ -32,24 +37,22 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        // Таймер блокировки управления после отскока от стены
         if (wallJumpTimer > 0)
         {
             wallJumpTimer -= Time.deltaTime;
         }
         else
         {
-            // Поворот персонажа только если мы контролируем его (не в процессе отскока)
             if (horizontalInput > 0 && !isFacingRight) Flip();
             else if (horizontalInput < 0 && isFacingRight) Flip();
         }
 
-        animator.SetBool("PlayerRun", horizontalInput != 0);
+        if (animator != null)
+            animator.SetBool("PlayerRun", horizontalInput != 0);
     }
 
     private void FixedUpdate()
     {
-        // Движемся только если управление не заблокировано прыжком от стены
         if (wallJumpTimer <= 0)
         {
             rb.linearVelocity = new Vector2(horizontalInput * speed, rb.linearVelocity.y);
@@ -64,8 +67,6 @@ public class PlayerMovement : MonoBehaviour
         transform.localScale = localScale;
     }
 
-    // --- INPUT SYSTEM METHODS ---
-
     public void OnMove(InputValue value)
     {
         horizontalInput = value.Get<Vector2>().x;
@@ -77,54 +78,67 @@ public class PlayerMovement : MonoBehaviour
 
         if (IsGrounded())
         {
-            // Обычный прыжок
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         }
-        else if (IsWalled())
+        else if (IsWalledLeft() || IsWalledRight())
         {
-            // Прыжок от стены
             WallJump();
         }
     }
 
-    // --- MECHANICS ---
-
     private void WallJump()
     {
-        // Включаем таймер блокировки управления
         wallJumpTimer = wallJumpDuration;
         
-        // Так как wallCheck находится перед лицом, если мы смотрим вправо (true),
-        // значит стена справа, и прыгать надо влево (-1). И наоборот.
-        float wallDirection = isFacingRight ? -1f : 1f;
+        // Если стена слева, то толкаем вправо (1). Иначе толкаем влево (-1).
+        float wallDirection = IsWalledLeft() ? 1f : -1f;
         
-        // Сбрасываем текущую скорость и применяем силу отскока
         rb.linearVelocity = new Vector2(wallDirection * wallJumpPower.x, wallJumpPower.y);
         
-        // Сразу разворачиваем персонажа лицом от стены
-        Flip();
+        if (wallDirection > 0 && !isFacingRight) Flip();
+        else if (wallDirection < 0 && isFacingRight) Flip();
     }
 
-    // --- DETECTIONS ---
+    // --- ПРОВЕРКИ ---
 
     private bool IsGrounded()
     {
         return Physics2D.OverlapBox(groundCheck.position, groundCheckSize, 0f, environmentLayer);
     }
 
-    private bool IsWalled()
+    private bool IsWalledLeft()
     {
-        return Physics2D.OverlapCircle(wallCheck.position, wallCheckRadius, environmentLayer);
+        // Создаем координату для левого куба
+        Vector2 leftPosition = (Vector2)wallCheck.position + (Vector2.left * wallCheckOffset);
+        return Physics2D.OverlapBox(leftPosition, wallCheckSize, 0f, environmentLayer);
     }
 
-    // --- GIZMOS ---
+    private bool IsWalledRight()
+    {
+        // Создаем координату для правого куба
+        Vector2 rightPosition = (Vector2)wallCheck.position + (Vector2.right * wallCheckOffset);
+        return Physics2D.OverlapBox(rightPosition, wallCheckSize, 0f, environmentLayer);
+    }
+
+    // --- ОТРИСОВКА В РЕДАКТОРЕ (GIZMOS) ---
 
     private void OnDrawGizmosSelected()
     {
+        // Рисуем землю
         Gizmos.color = Color.green;
         if (groundCheck) Gizmos.DrawWireCube(groundCheck.position, groundCheckSize);
         
+        // Рисуем стены
         Gizmos.color = Color.red;
-        if (wallCheck) Gizmos.DrawWireSphere(wallCheck.position, wallCheckRadius);
+        if (wallCheck)
+        {
+            // Левый куб
+            Vector2 leftPos = (Vector2)wallCheck.position + (Vector2.left * wallCheckOffset);
+            Gizmos.DrawWireCube(leftPos, wallCheckSize);
+
+            // Правый куб
+            Vector2 rightPos = (Vector2)wallCheck.position + (Vector2.right * wallCheckOffset);
+            Gizmos.DrawWireCube(rightPos, wallCheckSize);
+        }
     }
 }
