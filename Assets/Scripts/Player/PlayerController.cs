@@ -49,6 +49,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (animator != null)
             animator.SetBool("PlayerRun", horizontalInput != 0);
+            animator.SetFloat("HorizontalSpeed", horizontalInput);
     }
 
     private void FixedUpdate()
@@ -62,9 +63,9 @@ public class PlayerMovement : MonoBehaviour
     private void Flip()
     {
         isFacingRight = !isFacingRight;
-        Vector3 localScale = transform.localScale;
-        localScale.x *= -1f;
-        transform.localScale = localScale;
+        // Vector3 localScale = transform.localScale;
+        // localScale.x *= -1f;
+        // transform.localScale = localScale;
     }
 
     public void OnMove(InputValue value)
