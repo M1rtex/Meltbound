@@ -103,3 +103,5 @@ InitTestScene*.unity*
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
 
 /[Aa]ssets/TextMesh Pro/Resources/Fonts & Materials/*Fallback.asset
+
+.claude/
