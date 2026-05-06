@@ -1,44 +1,61 @@
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement; 
+using UnityEngine.SceneManagement;
 
 public class HealthBar : MonoBehaviour
 {
-    public Slider slider;
-    public GameObject RestartUI;
+    [Header("UI Toolkit")]
+    public UIController uiController;
+    public UIManager uiManager;
+
+    [Header("Settings")]
     public float maxHealth = 100f;
-    
+
     [Header("Настройки убывания")]
-    public float decayRate = 1f; 
-    
+    public float decayRate = 1f;
+
     private float currentHealth;
     private bool isDead = false;
 
     void Start()
     {
         currentHealth = maxHealth;
-        slider.maxValue = maxHealth;
-        slider.value = maxHealth;
+
+        if (uiController != null)
+        {
+            uiController.UpdateHealthBar(currentHealth, maxHealth);
+        }
     }
 
     void Update()
     {
-        if (isDead) return; 
+        if (isDead) return;
+
         currentHealth -= decayRate * Time.deltaTime;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-        slider.value = currentHealth;
+
+        if (uiController != null)
+        {
+            uiController.UpdateHealthBar(currentHealth, maxHealth);
+        }
+
         if (currentHealth <= 0)
         {
             GameOver();
         }
     }
-    
+
     public void Heal(float amount)
     {
         if (isDead) return;
+
         currentHealth += amount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-        slider.value = currentHealth;
+
+        if (uiController != null)
+        {
+            uiController.UpdateHealthBar(currentHealth, maxHealth);
+        }
+
         Debug.Log("Полечились на: " + amount + ". Текущее HP: " + currentHealth);
     }
 
@@ -46,7 +63,12 @@ public class HealthBar : MonoBehaviour
     {
         isDead = true;
         Debug.Log("Game Over! Здоровье закончилось.");
-        RestartUI.SetActive(true);
+
+        if (uiManager != null)
+        {
+            uiManager.ShowRestartMenu();
+        }
+
         Time.timeScale = 0f;
     }
 }

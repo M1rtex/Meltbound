@@ -3,14 +3,24 @@ using UnityEngine.SceneManagement;
 
 public class KillZone : MonoBehaviour
 {
-    public GameObject RestartUI;
+    public UIManager uiManager;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
         if (collision.CompareTag("Player"))
+            GameOver();
+    }
+
+    void GameOver()
+    {
+        Debug.Log("Game Over!");
+
+        if (uiManager != null)
         {
-            RestartUI.SetActive(true);
+            uiManager.ShowRestartMenu();
+        }
+        else
+        {
             Time.timeScale = 0f;
         }
     }

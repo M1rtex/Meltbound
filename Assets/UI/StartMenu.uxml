@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="GameUI.uss" />
+    <ui:VisualElement name="start-overlay" class="menu-overlay">
+        <ui:VisualElement name="start-panel" class="menu-panel">
+            <ui:Label text="MELTBOUND" class="menu-title" />
+            <ui:Button name="start-button" text="Start Game" class="menu-button" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
