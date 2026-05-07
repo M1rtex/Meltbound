@@ -4,6 +4,8 @@
     height: 100%;
 }
 
+
+
 /* Health Bar Container - Left Top */
 .health-container {
     position: absolute;
@@ -11,11 +13,6 @@
     top: 20px;
     width: 320px;
     height: 50px;
-    background-color: rgba(20, 20, 20, 0.85);
-    border-radius: 25px;
-    border-width: 3px;
-    border-color: rgba(80, 80, 80, 0.9);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 .health-bar {
@@ -24,34 +21,35 @@
     min-height: 40px;
     border-radius: 25px;
     border-width: 5px;
-    border-color: rgba(80, 80, 80, 0.9);
+    border-color: rgba(100, 180, 255, 0.8);
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(50, 150, 255, 0.4);
 }
 
 /* ProgressBar background */
-#health-bar > .unity-progress-bar__background {
-    background-color: rgba(40, 40, 40, 0.95);
-    border-radius: 25px; /* Делаем круглым, как в оригинале */
+#root > #health-container > #health-bar > #unity-progress-bar > .unity-progress-bar__background {
+    background-color: rgba(30, 40, 50, 0.95);
+    border-radius: 20px;
     border-width: 0;
     margin: 0;
-    overflow: hidden; /* Важно: чтобы прогресс не вылезал за границы */
+    padding: 0;
+    overflow: hidden;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.6);
 }
 
-/* ProgressBar progress fill - gradient effect */
-#health-bar > .unity-progress-bar__background > .unity-progress-bar__progress {
-    background-color: rgb(220, 60, 60);
-    border-radius: 25px; /* Те же скругления */
+/* ProgressBar progress fill - will change color dynamically via C# */
+#root > #health-container > #health-bar > #unity-progress-bar > .unity-progress-bar__background > .unity-progress-bar__progress {
+    background-color: rgb(50, 150, 255);
+    border-radius: 15px;
     margin: 0;
     height: 100%;
 }
 
-/* Hide title */
-#health-bar > .unity-progress-bar__background > .unity-progress-bar__title {
-    display: none;
-}
-
-#health-bar .unity-progress-bar__container {
-    min-height: 50px; /* Должно совпадать с .health-container */
-    height: 50px;
+#root > #health-container > #health-bar > #unity-progress-bar {
+     min-height: 100%; /* Должно совпадать с .health-container */
+    /* height: 50px; */
+    margin: 0;
+    padding: 0;
 }
 
 /* Buttons Container - Right Top */
@@ -66,10 +64,10 @@
 .game-button {
     height: 55px;
     margin-bottom: 12px;
-    background-color: rgba(70, 70, 70, 0.9);
+    background-color: rgba(70, 130, 180, 0.9);
     border-radius: 12px;
     border-width: 3px;
-    border-color: rgba(100, 100, 100, 0.9);
+    border-color: rgba(120, 180, 240, 0.9);
     color: rgb(255, 255, 255);
     font-size: 20px;
     -unity-font-style: bold;
@@ -78,88 +76,88 @@
 }
 
 .game-button:hover {
-    background-color: rgba(90, 90, 90, 0.95);
-    border-color: rgba(140, 140, 140, 1);
+    background-color: rgba(100, 160, 220, 0.95);
+    border-color: rgba(150, 200, 255, 1);
     scale: 1.05;
     translate: 0 -2px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 6px 12px rgba(50, 150, 255, 0.6);
 }
 
 .game-button:active {
-    background-color: rgba(50, 50, 50, 1);
-    border-color: rgba(80, 80, 80, 1);
+    background-color: rgba(40, 80, 120, 1);
+    border-color: rgba(80, 120, 160, 1);
     scale: 0.95;
     translate: 0 1px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-/* Menu Overlay - Full Screen */
+/* Menu Overlay - Full Screen with icy effect */
 .menu-overlay {
     position: absolute;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.85);
+    background-color: rgba(10, 30, 50, 0.92);
     align-items: center;
     justify-content: center;
 }
 
-/* Menu Panel - Center */
+/* Menu Panel - Center with icy glass effect */
 .menu-panel {
     width: 450px;
     min-height: 350px;
-    background-color: rgba(45, 45, 45, 0.98);
+    background-color: rgba(60, 100, 140, 0.85);
     border-radius: 20px;
     border-width: 4px;
-    border-color: rgba(100, 100, 100, 0.95);
+    border-color: rgba(120, 180, 240, 0.95);
     padding: 50px;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 10px 30px rgba(50, 150, 255, 0.5);
 }
 
-/* Menu Title */
+/* Menu Title with icy glow */
 .menu-title {
     font-size: 56px;
-    color: rgb(255, 255, 255);
+    color: rgb(200, 230, 255);
     -unity-font-style: bold;
     margin-bottom: 50px;
     -unity-text-align: middle-center;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    text-shadow: 0 0 20px rgba(100, 200, 255, 0.8);
 }
 
 .game-over-title {
-    color: rgb(240, 60, 60);
-    text-shadow: 0 0 10px rgba(240, 60, 60, 0.5);
+    color: rgb(255, 100, 100);
+    text-shadow: 0 0 15px rgba(255, 80, 80, 0.7);
 }
 
-/* Menu Button */
+/* Menu Button with icy style */
 .menu-button {
     width: 280px;
     height: 70px;
     margin-top: 18px;
-    background-color: rgba(70, 70, 70, 0.95);
+    background-color: rgba(70, 130, 180, 0.9);
     border-radius: 15px;
     border-width: 3px;
-    border-color: rgba(110, 110, 110, 0.95);
+    border-color: rgba(120, 180, 240, 0.95);
     color: rgb(255, 255, 255);
     font-size: 28px;
     -unity-font-style: bold;
     transition-duration: 0.2s;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 6px 12px rgba(50, 150, 255, 0.4);
 }
 
 .menu-button:hover {
-    background-color: rgba(90, 90, 90, 1);
-    border-color: rgba(140, 140, 140, 1);
+    background-color: rgba(100, 160, 220, 0.95);
+    border-color: rgba(150, 200, 255, 1);
     scale: 1.08;
     translate: 0 -3px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 8px 16px rgba(100, 180, 255, 0.7);
 }
 
 .menu-button:active {
-    background-color: rgba(50, 50, 50, 1);
-    border-color: rgba(90, 90, 90, 1);
+    background-color: rgba(40, 80, 120, 1);
+    border-color: rgba(80, 120, 160, 1);
     scale: 0.96;
     translate: 0 1px;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 3px 6px rgba(50, 100, 150, 0.4);
 }
