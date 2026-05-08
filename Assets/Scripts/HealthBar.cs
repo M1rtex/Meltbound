@@ -14,7 +14,13 @@ public class HealthBar : MonoBehaviour
     public float decayRate = 1f;
 
     private float currentHealth;
+    private Animator animator;
     private bool isDead = false;
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
 
     void Start()
     {
@@ -36,6 +42,11 @@ public class HealthBar : MonoBehaviour
         if (uiController != null)
         {
             uiController.UpdateHealthBar(currentHealth, maxHealth);
+        }
+
+        if (animator != null)
+        {
+            animator.SetFloat("PlayerHealth", currentHealth);
         }
 
         if (currentHealth <= 0)
