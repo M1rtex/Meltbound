@@ -56,7 +56,45 @@ public class PlayerMovement : MonoBehaviour
     {
         if (wallJumpTimer <= 0)
         {
-            rb.linearVelocity = new Vector2(horizontalInput * speed, rb.linearVelocity.y);
+            float targetSpeed = horizontalInput * speed;
+        
+            // По умолчанию используем обычное ускорение
+            float currentAcceleration = 50f;
+
+            // Если мы на земле, подстраиваем ускорение под поверхность
+            if (IsGrounded())
+            {
+                // Пускаем короткий луч вниз, чтобы найти коллайдер под ногами
+                RaycastHit2D hit = Physics2D.Raycast(groundCheck.position, Vector2.down, 0.1f, environmentLayer);
+            
+                if (hit.collider != null)
+                {
+                    // Берем значение трения из материала поверхности
+                    float surfaceFriction = hit.collider.friction;
+
+                    // ЛОГИКА: 
+                    // Если трение низкое (лед < 0.1) -> делаем ускорение маленьким (скользим)
+                    // Если трение высокое (грязь > 1.0) -> делаем ускорение огромным (вязнем/резко стопаем)
+                
+                    if (surfaceFriction < 0.1f) 
+                        currentAcceleration = 5f; // Эффект льда
+                    else if (surfaceFriction >= 1f) 
+                        currentAcceleration = 100f; // Эффект грязи (мгновенный стоп)
+                    else 
+                        currentAcceleration = 40f; // Обычный пол
+                }
+            }
+            else
+            {
+                currentAcceleration = 15f; // Ускорение в воздухе (инерция прыжка)
+            }
+
+            // Если игрок на льду и отпустил кнопки, даем ему катиться еще дольше
+            if (horizontalInput == 0 && currentAcceleration < 10f)
+                currentAcceleration = 2f; 
+
+            float newX = Mathf.MoveTowards(rb.linearVelocity.x, targetSpeed, currentAcceleration * Time.fixedDeltaTime);
+            rb.linearVelocity = new Vector2(newX, rb.linearVelocity.y);
         }
     }
 
