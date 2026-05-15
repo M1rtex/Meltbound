@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class ItemHeal : MonoBehaviour
 {
-    public float healAmount = 10f; 
-    private void OnTriggerEnter2D(Collider2D other) 
+    public float healAmount = 10f;
+
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
@@ -11,6 +12,13 @@ public class ItemHeal : MonoBehaviour
             if (hb != null)
             {
                 hb.Heal(healAmount);
+
+                HealVignetteEffect vignetteEffect = FindObjectOfType<HealVignetteEffect>();
+                if (vignetteEffect != null)
+                {
+                    vignetteEffect.TriggerHealEffect();
+                }
+
                 Destroy(gameObject);
             }
         }

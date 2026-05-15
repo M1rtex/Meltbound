@@ -1,18 +1,30 @@
-/* Root container */
 #root {
     width: 100%;
     height: 100%;
 }
 
+.heal-vignette {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    background-image: url("project://database/Assets/Sprites/Vignette/%D0%B7%D0%B5%D0%BB%D1%91%D0%BD%D1%8B%D0%B9%20%D0%B2%D0%B8%D0%BD%D1%8C%D0%B5%D1%82%D0%BA%D0%B0.png?fileID=2800000&guid=1d952a779943d6848afe19c182206706&type=3#зелёный виньетка");
+    transition-property: opacity;
+    transition-duration: 0.2s;
+    -unity-background-scale-mode: stretch-to-fill;
+    flex-grow: 1;
+    flex-shrink: 0;
+    background-color: rgba(255, 255, 255, 0);
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+}
 
-
-/* Health Bar Container - Left Top */
 .health-container {
     position: absolute;
     left: 20px;
     top: 20px;
     width: 320px;
     height: 50px;
+    scale: 1 1;
 }
 
 .health-bar {
@@ -23,10 +35,8 @@
     border-width: 5px;
     border-color: rgba(100, 180, 255, 0.8);
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(50, 150, 255, 0.4);
 }
 
-/* ProgressBar background */
 #root > #health-container > #health-bar > #unity-progress-bar > .unity-progress-bar__background {
     background-color: rgba(30, 40, 50, 0.95);
     border-radius: 20px;
@@ -34,10 +44,8 @@
     margin: 0;
     padding: 0;
     overflow: hidden;
-    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.6);
 }
 
-/* ProgressBar progress fill - will change color dynamically via C# */
 #root > #health-container > #health-bar > #unity-progress-bar > .unity-progress-bar__background > .unity-progress-bar__progress {
     background-color: rgb(50, 150, 255);
     border-radius: 15px;
@@ -46,13 +54,11 @@
 }
 
 #root > #health-container > #health-bar > #unity-progress-bar {
-     min-height: 100%; /* Должно совпадать с .health-container */
-    /* height: 50px; */
+    min-height: 100%;
     margin: 0;
     padding: 0;
 }
 
-/* Buttons Container - Right Top */
 .buttons-container {
     position: absolute;
     right: 20px;
@@ -72,26 +78,22 @@
     font-size: 20px;
     -unity-font-style: bold;
     transition-duration: 0.2s;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
 
 .game-button:hover {
     background-color: rgba(100, 160, 220, 0.95);
-    border-color: rgba(150, 200, 255, 1);
+    border-color: rgb(150, 200, 255);
     scale: 1.05;
     translate: 0 -2px;
-    box-shadow: 0 6px 12px rgba(50, 150, 255, 0.6);
 }
 
 .game-button:active {
-    background-color: rgba(40, 80, 120, 1);
-    border-color: rgba(80, 120, 160, 1);
+    background-color: rgb(40, 80, 120);
+    border-color: rgb(80, 120, 160);
     scale: 0.95;
     translate: 0 1px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-/* Menu Overlay - Full Screen with icy effect */
 .menu-overlay {
     position: absolute;
     width: 100%;
@@ -101,7 +103,6 @@
     justify-content: center;
 }
 
-/* Menu Panel - Center with icy glass effect */
 .menu-panel {
     width: 450px;
     min-height: 350px;
@@ -112,17 +113,14 @@
     padding: 50px;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 10px 30px rgba(50, 150, 255, 0.5);
 }
 
-/* Menu Title with icy glow */
 .menu-title {
     font-size: 56px;
     color: rgb(200, 230, 255);
     -unity-font-style: bold;
     margin-bottom: 50px;
     -unity-text-align: middle-center;
-    text-shadow: 0 0 20px rgba(100, 200, 255, 0.8);
 }
 
 .game-over-title {
@@ -130,7 +128,6 @@
     text-shadow: 0 0 15px rgba(255, 80, 80, 0.7);
 }
 
-/* Menu Button with icy style */
 .menu-button {
     width: 280px;
     height: 70px;
@@ -143,21 +140,18 @@
     font-size: 28px;
     -unity-font-style: bold;
     transition-duration: 0.2s;
-    box-shadow: 0 6px 12px rgba(50, 150, 255, 0.4);
 }
 
 .menu-button:hover {
     background-color: rgba(100, 160, 220, 0.95);
-    border-color: rgba(150, 200, 255, 1);
+    border-color: rgb(150, 200, 255);
     scale: 1.08;
     translate: 0 -3px;
-    box-shadow: 0 8px 16px rgba(100, 180, 255, 0.7);
 }
 
 .menu-button:active {
-    background-color: rgba(40, 80, 120, 1);
-    border-color: rgba(80, 120, 160, 1);
+    background-color: rgb(40, 80, 120);
+    border-color: rgb(80, 120, 160);
     scale: 0.96;
     translate: 0 1px;
-    box-shadow: 0 3px 6px rgba(50, 100, 150, 0.4);
 }
