@@ -1,10 +1,22 @@
 fileFormatVersion: 2
-guid: 3e0c4b753e397864cb7ffc2b1980f172
+guid: 28942cff1d34cf64385f74c1d228bb38
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5930566241358114145
-    second: PSD_0
+      213: -154434945187907471
+    second: dirt-tilesheet-Sheet_0
+  - first:
+      213: -2020774164433812748
+    second: dirt-tilesheet-Sheet_1
+  - first:
+      213: -7058491957440909481
+    second: dirt-tilesheet-Sheet_2
+  - first:
+      213: 2539751598774506847
+    second: dirt-tilesheet-Sheet_3
+  - first:
+      213: -2056313075374412110
+    second: dirt-tilesheet-Sheet_4
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +112,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PSD_0
+      name: dirt-tilesheet-Sheet_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 576
-        height: 324
+        width: 65
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +127,96 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 16de215339a9d4250800000000000000
-      internalID: 5930566241358114145
+      spriteID: 178fa2f4c365bddf0800000000000000
+      internalID: -154434945187907471
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dirt-tilesheet-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 0
+        width: 49
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f2c2ad9a94c4f3e0800000000000000
+      internalID: -2020774164433812748
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dirt-tilesheet-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 0
+        width: 65
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75f68c256f23b0e90800000000000000
+      internalID: -7058491957440909481
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dirt-tilesheet-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 0
+        width: 64
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f555fa67f920f3320800000000000000
+      internalID: 2539751598774506847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dirt-tilesheet-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 239
+        y: 0
+        width: 113
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2be215b17228673e0800000000000000
+      internalID: -2056313075374412110
       vertices: []
       indices: 
       edges: []
@@ -135,7 +235,11 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      PSD_0: 5930566241358114145
+      dirt-tilesheet-Sheet_0: -154434945187907471
+      dirt-tilesheet-Sheet_1: -2020774164433812748
+      dirt-tilesheet-Sheet_2: -7058491957440909481
+      dirt-tilesheet-Sheet_3: 2539751598774506847
+      dirt-tilesheet-Sheet_4: -2056313075374412110
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
