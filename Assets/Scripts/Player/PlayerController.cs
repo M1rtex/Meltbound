@@ -6,10 +6,16 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement Settings")]
     [SerializeField] private float speed = 5f;
     [SerializeField] private float jumpForce = 10f;
+    [SerializeField] private float minJumpForce = 5f;
+    [SerializeField] private float jumpReleaseMultiplier = 0.5f;
 
     [Header("Wall Jump Settings")]
     [SerializeField] private Vector2 wallJumpPower = new Vector2(5f, 10f);
     [SerializeField] private float wallJumpDuration = 0.2f;
+
+    [Header("Input Buffer Settings")]
+    [SerializeField] private float jumpBufferTime = 0.1f;
+    [SerializeField] private float coyoteTime = 0.15f;
 
     [Header("Detection Settings")]
     [SerializeField] private LayerMask environmentLayer;
@@ -33,6 +39,14 @@ public class PlayerMovement : MonoBehaviour
     private float wallJumpTimer;
     private bool isFacingRight = true;
 
+    private float jumpBufferCounter;
+    private bool wasGroundedLastFrame;
+    private float coyoteTimeCounter;
+    private bool isJumping;
+    private bool isJumpButtonHeld;
+    private PlayerInput playerInput;
+    private InputAction jumpAction;
+
     private Vector2 slopeNormalPerp;
     private float slopeDownAngle;
     private float slopeSideAngle;
@@ -43,10 +57,50 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        playerInput = GetComponent<PlayerInput>();
+        jumpAction = playerInput.actions["Jump"];
     }
 
     private void Update()
     {
+        bool isGrounded = IsGrounded();
+
+        if (isGrounded)
+        {
+            coyoteTimeCounter = coyoteTime;
+            isJumping = false;
+        }
+        else
+        {
+            coyoteTimeCounter -= Time.deltaTime;
+        }
+
+        if (isJumpButtonHeld && rb.linearVelocity.y > 0)
+        {
+            rb.linearVelocity += Vector2.up * Physics2D.gravity.y * (1f - jumpReleaseMultiplier) * Time.deltaTime;
+        }
+
+        if (jumpAction.WasReleasedThisFrame() && rb.linearVelocity.y > 0)
+        {
+            isJumpButtonHeld = false;
+            float newVelocityY = rb.linearVelocity.y * jumpReleaseMultiplier;
+            newVelocityY = Mathf.Max(newVelocityY, minJumpForce);
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, newVelocityY);
+        }
+
+        if (jumpBufferCounter > 0)
+        {
+            jumpBufferCounter -= Time.deltaTime;
+
+            if (isGrounded && !wasGroundedLastFrame)
+            {
+                PerformJump();
+                jumpBufferCounter = 0;
+            }
+        }
+
+        wasGroundedLastFrame = isGrounded;
+
         if (wallJumpTimer > 0)
         {
             wallJumpTimer -= Time.deltaTime;
@@ -88,7 +142,6 @@ public class PlayerMovement : MonoBehaviour
                         currentAcceleration = 40f; // Обычный пол
                 }
 
-                // Движение по наклонной поверхности
                 if (isOnSlope && canWalkOnSlope)
                 {
                     float moveDirectionX = horizontalInput * speed;
@@ -103,10 +156,9 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                currentAcceleration = 15f; // Ускорение в воздухе (инерция прыжка)
+                currentAcceleration = 15f;
             }
 
-            // Если игрок на льду и отпустил кнопки, даем ему катиться еще дольше
             if (horizontalInput == 0 && currentAcceleration < 10f)
                 currentAcceleration = 2f;
 
@@ -118,9 +170,6 @@ public class PlayerMovement : MonoBehaviour
     private void Flip()
     {
         isFacingRight = !isFacingRight;
-        // Vector3 localScale = transform.localScale;
-        // localScale.x *= -1f;
-        // transform.localScale = localScale;
     }
 
     public void OnMove(InputValue value)
@@ -130,23 +179,33 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnJump(InputValue value)
     {
-        if (!value.isPressed) return;
+        if (value.isPressed)
+        {
+            isJumpButtonHeld = true;
+            jumpBufferCounter = jumpBufferTime;
 
-        if (IsGrounded())
-        {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            if (coyoteTimeCounter > 0)
+            {
+                PerformJump();
+                coyoteTimeCounter = 0;
+            }
+            else if (IsWalledLeft() || IsWalledRight())
+            {
+                WallJump();
+            }
         }
-        else if (IsWalledLeft() || IsWalledRight())
-        {
-            WallJump();
-        }
+    }
+
+    private void PerformJump()
+    {
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+        isJumping = true;
     }
 
     private void WallJump()
     {
         wallJumpTimer = wallJumpDuration;
         
-        // Если стена слева, то толкаем вправо (1). Иначе толкаем влево (-1).
         float wallDirection = IsWalledLeft() ? 1f : -1f;
         
         rb.linearVelocity = new Vector2(wallDirection * wallJumpPower.x, wallJumpPower.y);
@@ -193,14 +252,12 @@ public class PlayerMovement : MonoBehaviour
 
     private bool IsWalledLeft()
     {
-        // Создаем координату для левого куба
         Vector2 leftPosition = (Vector2)wallCheck.position + (Vector2.left * wallCheckOffset);
         return Physics2D.OverlapBox(leftPosition, wallCheckSize, 0f, environmentLayer);
     }
 
     private bool IsWalledRight()
     {
-        // Создаем координату для правого куба
         Vector2 rightPosition = (Vector2)wallCheck.position + (Vector2.right * wallCheckOffset);
         return Physics2D.OverlapBox(rightPosition, wallCheckSize, 0f, environmentLayer);
     }
