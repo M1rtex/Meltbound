@@ -13,6 +13,10 @@ public class HealthBar : MonoBehaviour
     [Header("Настройки убывания")]
     public float decayRate = 1f;
 
+    [Header("Audio Settings")]
+    [SerializeField] private AudioSource audioSource; 
+    [SerializeField] private AudioClip gameOverSound; 
+
     private float currentHealth;
     private Animator animator;
     private bool isDead = false;
@@ -74,6 +78,11 @@ public class HealthBar : MonoBehaviour
     {
         isDead = true;
         Debug.Log("Game Over! Здоровье закончилось.");
+        
+        if (audioSource != null && gameOverSound != null)
+        {
+            audioSource.PlayOneShot(gameOverSound);
+        }
 
         if (uiManager != null)
         {
