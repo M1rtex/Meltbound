@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 741265878053754193}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.06, z: 0}
+  m_LocalPosition: {x: 0, y: -0.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -332,18 +332,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   speed: 2
-  jumpForce: 10
-  minJumpForce: 5
+  jumpForce: 7
+  minJumpForce: 3
   jumpReleaseMultiplier: 0.5
-  wallJumpPower: {x: 1, y: 6}
+  fallGravityMultiplier: 2
+  maxFallSpeed: 20
+  wallJumpPower: {x: 0.8, y: 7}
   wallJumpDuration: 0.2
-  jumpBufferTime: 0.1
+  jumpBufferTime: 0.2
   coyoteTime: 0.15
   environmentLayer:
     serializedVersion: 2
     m_Bits: 8
   groundCheck: {fileID: 5910260229403953532}
-  groundCheckSize: {x: 0.2, y: 0.05}
+  groundCheckSize: {x: 0.05, y: 0.05}
   wallCheck: {fileID: 8704662732454690030}
   wallCheckSize: {x: 0.04, y: 0.31}
   wallCheckOffset: 0.1
@@ -506,7 +508,7 @@ Transform:
   m_GameObject: {fileID: 6355056308137536687}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.18, z: 0}
+  m_LocalPosition: {x: 0, y: -0.19, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
