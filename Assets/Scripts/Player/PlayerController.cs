@@ -35,6 +35,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float maxSlopeAngle = 45f; // Максимальный угол наклона, по которому можно ходить
     [SerializeField] private float slopeCheckDistance = 0.5f; // Дистанция проверки наклона
 
+    [Header("Audio Settings")]
+    [SerializeField] private AudioSource footstepAudio; // Для зацикленных шагов
+    [SerializeField] private AudioSource sfxAudio;      // НОВЫЙ ПОЛЕ: для разовых эффектов (прыжки)
+    [SerializeField] private AudioClip jumpSound;       // Клип прыжка
+
     private Rigidbody2D rb;
     private Animator animator;
     private float horizontalInput;
@@ -131,8 +136,10 @@ public class PlayerMovement : MonoBehaviour
         if (animator != null)
         {
             animator.SetBool("PlayerRun", horizontalInput != 0);
-            animator.SetFloat("HorizontalSpeed", horizontalInput); 
+            animator.SetFloat("HorizontalSpeed", horizontalInput);
         }
+
+        HandleFootsteps(isGrounded);
     }
 
     private void FixedUpdate()
@@ -142,7 +149,6 @@ public class PlayerMovement : MonoBehaviour
         if (wallJumpTimer <= 0)
         {
             float targetSpeed = horizontalInput * speed;
-
             float currentAcceleration = 50f;
 
             if (IsGrounded())
@@ -154,11 +160,11 @@ public class PlayerMovement : MonoBehaviour
                     float surfaceFriction = hit.collider.friction;
 
                     if (surfaceFriction < 0.1f)
-                        currentAcceleration = 5f; // Эффект льда
+                        currentAcceleration = 5f;
                     else if (surfaceFriction >= 1f)
-                        currentAcceleration = 100f; // Эффект грязи (мгновенный стоп)
+                        currentAcceleration = 100f;
                     else
-                        currentAcceleration = 40f; // Обычный пол
+                        currentAcceleration = 40f;
                 }
 
                 if (isOnSlope && canWalkOnSlope)
@@ -183,6 +189,26 @@ public class PlayerMovement : MonoBehaviour
 
             float newVelX = Mathf.MoveTowards(rb.linearVelocity.x, targetSpeed, currentAcceleration * Time.fixedDeltaTime);
             rb.linearVelocity = new Vector2(newVelX, rb.linearVelocity.y);
+        }
+    }
+
+    private void HandleFootsteps(bool isGrounded)
+    {
+        if (footstepAudio == null) return;
+
+        if (Mathf.Abs(rb.linearVelocity.x) > 0.1f && isGrounded)
+        {
+            if (!footstepAudio.isPlaying)
+            {
+                footstepAudio.Play();
+            }
+        }
+        else
+        {
+            if (footstepAudio.isPlaying)
+            {
+                footstepAudio.Stop(); // Теперь этот Stop() не заденет прыжок!
+            }
         }
     }
 
@@ -220,6 +246,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         isJumping = true;
+        PlayJumpSound();
         isJumpButtonHeld = true; // Вот теперь мы легитимно держим кнопку прыжка!
         coyoteTimeCounter = 0;   // Сразу обнуляем Койота
         jumpBufferCounter = 0;   // Очищаем буфер
@@ -227,16 +254,24 @@ public class PlayerMovement : MonoBehaviour
     private void WallJump()
     {
         wallJumpTimer = wallJumpDuration;
-        
         float wallDirection = IsWalledLeft() ? 1f : -1f;
         
         rb.linearVelocity = new Vector2(wallDirection * wallJumpPower.x, wallJumpPower.y);
         
         if (wallDirection > 0 && !isFacingRight) Flip();
         else if (wallDirection < 0 && isFacingRight) Flip();
+
+        PlayJumpSound();
     }
 
-    // --- ПРОВЕРКИ ---
+    private void PlayJumpSound()
+    {
+        // Используем sfxAudio вместо footstepAudio
+        if (sfxAudio != null && jumpSound != null)
+        {
+            sfxAudio.PlayOneShot(jumpSound);
+        }
+    }
 
     public bool IsGrounded()
     {
@@ -246,23 +281,13 @@ public class PlayerMovement : MonoBehaviour
     private void CheckSlope()
     {
         Vector2 checkPos = groundCheck.position;
-
         RaycastHit2D hit = Physics2D.Raycast(checkPos, Vector2.down, slopeCheckDistance, environmentLayer);
 
         if (hit)
         {
             slopeNormalPerp = Vector2.Perpendicular(hit.normal).normalized;
             slopeDownAngle = Vector2.Angle(hit.normal, Vector2.up);
-
-            if (slopeDownAngle != 0)
-            {
-                isOnSlope = true;
-            }
-            else
-            {
-                isOnSlope = false;
-            }
-
+            isOnSlope = slopeDownAngle != 0;
             canWalkOnSlope = slopeDownAngle <= maxSlopeAngle;
         }
         else
@@ -284,28 +309,20 @@ public class PlayerMovement : MonoBehaviour
         return Physics2D.OverlapBox(rightPosition, wallCheckSize, 0f, environmentLayer);
     }
 
-    // --- ОТРИСОВКА В РЕДАКТОРЕ (GIZMOS) ---
-
     private void OnDrawGizmosSelected()
     {
-        // Рисуем землю
         Gizmos.color = Color.green;
         if (groundCheck) Gizmos.DrawWireCube(groundCheck.position, groundCheckSize);
 
-        // Рисуем стены
         Gizmos.color = Color.red;
         if (wallCheck)
         {
-            // Левый куб
             Vector2 leftPos = (Vector2)wallCheck.position + (Vector2.left * wallCheckOffset);
             Gizmos.DrawWireCube(leftPos, wallCheckSize);
-
-            // Правый куб
             Vector2 rightPos = (Vector2)wallCheck.position + (Vector2.right * wallCheckOffset);
             Gizmos.DrawWireCube(rightPos, wallCheckSize);
         }
 
-        // Рисуем проверку наклона
         if (groundCheck)
         {
             Gizmos.color = Color.yellow;
