@@ -8,6 +8,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpForce = 10f;
     [SerializeField] private float minJumpForce = 5f;
     [SerializeField] private float jumpReleaseMultiplier = 0.5f;
+    [SerializeField] private float fallGravityMultiplier = 2.5f;
+    [SerializeField] private float maxFallSpeed = 20f;
 
     [Header("Wall Jump Settings")]
     [SerializeField] private Vector2 wallJumpPower = new Vector2(5f, 10f);
@@ -70,7 +72,8 @@ public class PlayerMovement : MonoBehaviour
     {
         bool isGrounded = IsGrounded();
 
-        if (isGrounded)
+        // Логика Койота
+        if (isGrounded && rb.linearVelocity.y <= 0.01f)
         {
             coyoteTimeCounter = coyoteTime;
             isJumping = false;
@@ -80,32 +83,41 @@ public class PlayerMovement : MonoBehaviour
             coyoteTimeCounter -= Time.deltaTime;
         }
 
+        // Обработка Буфера прыжка: если кнопка была нажата заранее и мы на земле
+        if (jumpBufferCounter > 0)
+        {
+            jumpBufferCounter -= Time.deltaTime;
+
+            if (isGrounded && !isJumping && rb.linearVelocity.y <= 0.01f)
+            {
+                PerformJump();
+            }
+        }
+
+        // Динамическое удержание (уменьшение гравитации для затяжного прыжка)
         if (isJumpButtonHeld && rb.linearVelocity.y > 0)
         {
             rb.linearVelocity += Vector2.up * Physics2D.gravity.y * (1f - jumpReleaseMultiplier) * Time.deltaTime;
         }
 
+        // Увеличенная гравитация при падении для более естественного движения
+        if (rb.linearVelocity.y < 0)
+        {
+            rb.linearVelocity += Vector2.up * Physics2D.gravity.y * (fallGravityMultiplier - 1) * Time.deltaTime;
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, Mathf.Max(rb.linearVelocity.y, -maxFallSpeed));
+        }
+
+        // Раннее отпускание кнопки прыжка (Jump Cut)
         if (jumpAction.WasReleasedThisFrame() && rb.linearVelocity.y > 0)
         {
             isJumpButtonHeld = false;
             float newVelocityY = rb.linearVelocity.y * jumpReleaseMultiplier;
-            newVelocityY = Mathf.Max(newVelocityY, minJumpForce);
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, newVelocityY);
-        }
-
-        if (jumpBufferCounter > 0)
-        {
-            jumpBufferCounter -= Time.deltaTime;
-
-            if (isGrounded && !wasGroundedLastFrame)
-            {
-                PerformJump();
-                jumpBufferCounter = 0;
-            }
         }
 
         wasGroundedLastFrame = isGrounded;
 
+        // Оставшаяся логика WallJumpTimer и аниматора...
         if (wallJumpTimer > 0)
         {
             wallJumpTimer -= Time.deltaTime;
@@ -114,6 +126,11 @@ public class PlayerMovement : MonoBehaviour
         {
             if (horizontalInput > 0 && !isFacingRight) Flip();
             else if (horizontalInput < 0 && isFacingRight) Flip();
+        }
+
+        if (rb.linearVelocity.y <= 0)
+        {
+            isJumpButtonHeld = false;
         }
 
         if (animator != null)
@@ -209,17 +226,18 @@ public class PlayerMovement : MonoBehaviour
     {
         if (value.isPressed)
         {
-            isJumpButtonHeld = true;
-            jumpBufferCounter = jumpBufferTime;
-
-            if (coyoteTimeCounter > 0)
+            if (coyoteTimeCounter > 0 && !isJumping)
             {
                 PerformJump();
-                coyoteTimeCounter = 0;
             }
             else if (IsWalledLeft() || IsWalledRight())
             {
                 WallJump();
+            }
+            else
+            {
+                // Устанавливаем буфер только если не прыгнули сразу
+                jumpBufferCounter = jumpBufferTime;
             }
         }
     }
@@ -229,8 +247,10 @@ public class PlayerMovement : MonoBehaviour
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         isJumping = true;
         PlayJumpSound();
+        isJumpButtonHeld = true; // Вот теперь мы легитимно держим кнопку прыжка!
+        coyoteTimeCounter = 0;   // Сразу обнуляем Койота
+        jumpBufferCounter = 0;   // Очищаем буфер
     }
-
     private void WallJump()
     {
         wallJumpTimer = wallJumpDuration;
