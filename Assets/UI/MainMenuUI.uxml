@@ -1,0 +1,13 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/MainMenuUI_styles.uss?fileID=7433441132597879392&amp;guid=064c1818518c2754fb611f1778435975&amp;type=3#MainMenuUI_styles"/>
+    <ui:VisualElement name="Panel" class="panel" style="flex-grow: 1; margin-top: 0%; margin-bottom: 0%;">
+        <ui:VisualElement name="Container" class="menu" style="flex-grow: 1; width: 45%; align-self: center; opacity: 1; max-height: none; aspect-ratio: auto; overflow: visible;">
+            <ui:Image source="project://database/Assets/UI/Logo/logo_gemini_1.png?fileID=-5601709513805781167&amp;guid=4400910a13bb4e84f99178bfa9d8a108&amp;type=3#logo_gemini_1_0" picking-mode="Ignore" style="margin-bottom: 0%; flex-grow: 0; scale: 0.8 0.8 0.8; transform-origin: center center 1px; translate: 0 0 1px; margin-top: -274px; height: 592px; width: 1001px; background-position-x: center; position: relative; top: auto; opacity: 1; visibility: visible;"/>
+            <ui:VisualElement name="ButtonsContainer" class="buttons_container" style="flex-grow: 1;">
+                <ui:Button text="Играть" name="StartButton" class="button"/>
+                <ui:Button text="Настройки" name="SettingsButton" class="button"/>
+                <ui:Button text="Выйти" name="QuitButton" class="button"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
