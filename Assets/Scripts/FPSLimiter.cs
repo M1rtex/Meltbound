@@ -1,9 +1,13 @@
 using UnityEngine;
 
+/// <summary>
+/// Применяет ограничение FPS из SettingsManager.
+/// Если SettingsManager не найден, использует значение по умолчанию.
+/// </summary>
 public class FPSLimiter : MonoBehaviour
 {
     [Header("FPS Settings")]
-    [SerializeField] private int targetFPS = 60;
+    [SerializeField] private int fallbackFPS = 60;
     [SerializeField] private bool limitInEditor = true;
 
     private void Awake()
@@ -20,11 +24,14 @@ public class FPSLimiter : MonoBehaviour
 #if UNITY_EDITOR
         else if (limitInEditor)
         {
-            ApplyFPSLimit();
+            ApplyFPSLimitFallback();
         }
 #endif
     }
 
+    /// <summary>
+    /// Применяет ограничение FPS из SettingsManager.
+    /// </summary>
     private void ApplyFPSLimit()
     {
 #if UNITY_EDITOR
@@ -32,7 +39,26 @@ public class FPSLimiter : MonoBehaviour
             return;
 #endif
 
-        Application.targetFrameRate = targetFPS;
+        // Пытаемся получить FPS из SettingsManager
+        if (SettingsManager.Instance != null)
+        {
+            Application.targetFrameRate = SettingsManager.Instance.CurrentFPS;
+        }
+        else
+        {
+            // Если SettingsManager еще не инициализирован, используем fallback
+            Application.targetFrameRate = fallbackFPS;
+        }
+
+        QualitySettings.vSyncCount = 0;
+    }
+
+    /// <summary>
+    /// Применяет fallback значение FPS (для редактора).
+    /// </summary>
+    private void ApplyFPSLimitFallback()
+    {
+        Application.targetFrameRate = fallbackFPS;
         QualitySettings.vSyncCount = 0;
     }
 
@@ -48,7 +74,7 @@ public class FPSLimiter : MonoBehaviour
         FPSLimiter limiter = FindFirstObjectByType<FPSLimiter>();
         if (limiter != null && limiter.limitInEditor && !Application.isPlaying)
         {
-            Application.targetFrameRate = limiter.targetFPS;
+            Application.targetFrameRate = limiter.fallbackFPS;
             QualitySettings.vSyncCount = 0;
         }
     }

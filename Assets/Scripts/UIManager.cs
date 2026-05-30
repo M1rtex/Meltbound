@@ -1,26 +1,27 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class UIManager : MonoBehaviour
 {
     [Header("UI Documents")]
     public UIDocument gameUIDocument;
     public UIDocument pauseMenuDocument;
-    public UIDocument startMenuDocument;
     public UIDocument restartMenuDocument;
 
     private static bool isRestarting = false;
 
     private VisualElement pauseOverlay;
-    private VisualElement startOverlay;
     private VisualElement restartOverlay;
+
+    private Label levelBanner;
 
     private Button pauseButton;
     private Button restartButton;
     private Button resumeButton;
+    private Button toMenuButton;
     private Button quitButton;
-    private Button startButton;
     private Button restartButtonMenu;
     private Button quitButtonMenu;
 
@@ -28,18 +29,23 @@ public class UIManager : MonoBehaviour
     {
         InitializeGameUI();
         InitializePauseMenu();
-        InitializeStartMenu();
         InitializeRestartMenu();
 
-        if (!isRestarting)
+        // Игра начинается сразу, без заставки
+        Time.timeScale = 1f;
+
+        if (isRestarting)
         {
-            ShowStartMenu();
-        }
-        else
-        {
-            HideAllMenus();
-            Time.timeScale = 1f;
             isRestarting = false;
+        }
+    }
+
+    void Start()
+    {
+        // Запускаем анимацию баннера уровня
+        if (levelBanner != null)
+        {
+            StartCoroutine(ShowLevelBanner());
         }
     }
 
@@ -55,12 +61,22 @@ public class UIManager : MonoBehaviour
         var root = gameUIDocument.rootVisualElement;
         pauseButton = root.Q<Button>("pause-button");
         restartButton = root.Q<Button>("restart-button");
+        levelBanner = root.Q<Label>("level-banner");
 
         if (pauseButton != null)
             pauseButton.clicked += OnPausePress;
 
         if (restartButton != null)
             restartButton.clicked += OnRestartPress;
+
+        // Определяем номер уровня из индекса сцены
+        if (levelBanner != null)
+        {
+            int levelIndex = SceneManager.GetActiveScene().buildIndex;
+            // Если первая сцена (индекс 0) — это главное меню, вычитаем 1
+            int levelNumber = levelIndex > 0 ? levelIndex : 1;
+            levelBanner.text = $"Уровень {levelNumber}";
+        }
     }
 
     private void InitializePauseMenu()
@@ -70,31 +86,20 @@ public class UIManager : MonoBehaviour
         var root = pauseMenuDocument.rootVisualElement;
         pauseOverlay = root.Q<VisualElement>("pause-overlay");
         resumeButton = root.Q<Button>("resume-button");
+        toMenuButton = root.Q<Button>("to-menu-button");
         quitButton = root.Q<Button>("quit-button");
 
         if (resumeButton != null)
             resumeButton.clicked += OnResumePress;
+
+        if (toMenuButton != null)
+            toMenuButton.clicked += LoadMainMenu;
 
         if (quitButton != null)
             quitButton.clicked += OnRageQuitPress;
 
         if (pauseOverlay != null)
             pauseOverlay.style.display = DisplayStyle.None;
-    }
-
-    private void InitializeStartMenu()
-    {
-        if (startMenuDocument == null) return;
-
-        var root = startMenuDocument.rootVisualElement;
-        startOverlay = root.Q<VisualElement>("start-overlay");
-        startButton = root.Q<Button>("start-button");
-
-        if (startButton != null)
-            startButton.clicked += OnStartPress;
-
-        if (startOverlay != null)
-            startOverlay.style.display = DisplayStyle.None;
     }
 
     private void InitializeRestartMenu()
@@ -127,11 +132,11 @@ public class UIManager : MonoBehaviour
         if (resumeButton != null)
             resumeButton.clicked -= OnResumePress;
 
+        if (toMenuButton != null)
+            toMenuButton.clicked -= LoadMainMenu;
+
         if (quitButton != null)
             quitButton.clicked -= OnRageQuitPress;
-
-        if (startButton != null)
-            startButton.clicked -= OnStartPress;
 
         if (restartButtonMenu != null)
             restartButtonMenu.clicked -= OnRestartPress;
@@ -165,11 +170,6 @@ public class UIManager : MonoBehaviour
         HidePauseMenu();
     }
 
-    public void OnStartPress()
-    {
-        HideStartMenu();
-    }
-
     public void ShowRestartMenu()
     {
         if (restartOverlay != null)
@@ -197,33 +197,50 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void ShowStartMenu()
-    {
-        if (startOverlay != null)
-        {
-            startOverlay.style.display = DisplayStyle.Flex;
-            Time.timeScale = 0f;
-        }
-    }
-
-    private void HideStartMenu()
-    {
-        if (startOverlay != null)
-        {
-            startOverlay.style.display = DisplayStyle.None;
-            Time.timeScale = 1f;
-        }
-    }
-
     private void HideAllMenus()
     {
         if (pauseOverlay != null)
             pauseOverlay.style.display = DisplayStyle.None;
 
-        if (startOverlay != null)
-            startOverlay.style.display = DisplayStyle.None;
-
         if (restartOverlay != null)
             restartOverlay.style.display = DisplayStyle.None;
+    }
+
+    /// <summary>
+    /// Загружает сцену главного меню.
+    /// Перед загрузкой восстанавливает нормальный ход времени.
+    /// </summary>
+    private void LoadMainMenu()
+    {
+        // Восстанавливаем нормальный ход времени перед загрузкой сцены
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainMenuScene");
+    }
+
+    /// <summary>
+    /// Показывает баннер уровня и плавно скрывает его через 2 секунды.
+    /// </summary>
+    private IEnumerator ShowLevelBanner()
+    {
+        if (levelBanner == null) yield break;
+
+        // Показываем баннер на 2 секунды
+        yield return new WaitForSeconds(2f);
+
+        // Плавно уменьшаем прозрачность
+        float duration = 1f;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float opacity = Mathf.Lerp(1f, 0f, elapsed / duration);
+            levelBanner.style.opacity = opacity;
+            yield return null;
+        }
+
+        // Полностью скрываем элемент
+        levelBanner.style.opacity = 0f;
+        levelBanner.style.display = DisplayStyle.None;
     }
 }

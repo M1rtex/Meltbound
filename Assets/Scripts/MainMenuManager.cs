@@ -7,14 +7,20 @@ public class MainMenuManager : MonoBehaviour
     [Header("UI Documents")]
     public UIDocument mainMenuDocument;
     public UIDocument selectLevelDocument;
+    public UIDocument settingsDocument;
+
+    [Header("UI Controllers")]
+    public SettingsMenuUI settingsMenuUI;
 
     private VisualElement mainMenuPanel;
     private VisualElement selectLevelPanel;
+    private VisualElement settingsPanel;
 
     private Button startButton;
     private Button settingsButton;
     private Button quitButton;
     private Button backButton;
+    private Button backFromSettingsButton;
 
     private Image level1Button;
     private Image level2Button;
@@ -26,7 +32,9 @@ public class MainMenuManager : MonoBehaviour
     {
         InitializeMainMenu();
         InitializeSelectLevelMenu();
+        InitializeSettingsMenu();
         HideSelectLevelMenu();
+        HideSettingsMenu();
         ShowMainMenu();
     }
 
@@ -94,6 +102,21 @@ public class MainMenuManager : MonoBehaviour
             selectLevelPanel.style.display = DisplayStyle.None;
     }
 
+    private void InitializeSettingsMenu()
+    {
+        if (settingsDocument == null) return;
+
+        var root = settingsDocument.rootVisualElement;
+        settingsPanel = root.Q<VisualElement>("Panel");
+        backFromSettingsButton = root.Q<Button>("Button");
+
+        if (backFromSettingsButton != null)
+            backFromSettingsButton.clicked += OnBackFromSettingsClicked;
+
+        if (settingsPanel != null)
+            settingsPanel.style.display = DisplayStyle.None;
+    }
+
     private void UnsubscribeEvents()
     {
         if (startButton != null)
@@ -107,6 +130,9 @@ public class MainMenuManager : MonoBehaviour
 
         if (backButton != null)
             backButton.clicked -= OnBackButtonClicked;
+
+        if (backFromSettingsButton != null)
+            backFromSettingsButton.clicked -= OnBackFromSettingsClicked;
 
         if (level1Button != null)
             level1Button.UnregisterCallback<ClickEvent>(evt => OnLevelButtonClicked(1));
@@ -133,7 +159,14 @@ public class MainMenuManager : MonoBehaviour
 
     private void OnSettingsButtonClicked()
     {
-        Debug.Log("Настройки пока не реализованы");
+        // Принудительно обновляем UI настроек перед показом панели
+        if (settingsMenuUI != null)
+        {
+            settingsMenuUI.LoadCurrentSettings();
+        }
+
+        HideMainMenu();
+        ShowSettingsMenu();
     }
 
     private void OnQuitButtonClicked()
@@ -148,6 +181,12 @@ public class MainMenuManager : MonoBehaviour
     private void OnBackButtonClicked()
     {
         HideSelectLevelMenu();
+        ShowMainMenu();
+    }
+
+    private void OnBackFromSettingsClicked()
+    {
+        HideSettingsMenu();
         ShowMainMenu();
     }
 
@@ -187,6 +226,18 @@ public class MainMenuManager : MonoBehaviour
     {
         if (selectLevelPanel != null)
             selectLevelPanel.style.display = DisplayStyle.None;
+    }
+
+    private void ShowSettingsMenu()
+    {
+        if (settingsPanel != null)
+            settingsPanel.style.display = DisplayStyle.Flex;
+    }
+
+    private void HideSettingsMenu()
+    {
+        if (settingsPanel != null)
+            settingsPanel.style.display = DisplayStyle.None;
     }
 
     private string GetSceneNameForLevel(int levelIndex)

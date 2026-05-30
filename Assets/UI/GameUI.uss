@@ -155,3 +155,18 @@
     scale: 0.96;
     translate: 0 1px;
 }
+
+.level-banner {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    font-size: 72px;
+    color: rgb(255, 255, 255);
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    text-shadow: 0 0 20px rgba(100, 180, 255, 0.8);
+    opacity: 1;
+    transition-property: opacity;
+    transition-duration: 1s;
+}

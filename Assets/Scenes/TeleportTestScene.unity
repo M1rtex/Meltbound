@@ -920,61 +920,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7054fb8251209449914a916be111041, type: 3}
---- !u!1 &1073280337
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1073280339}
-  - component: {fileID: 1073280338}
-  m_Layer: 0
-  m_Name: StartMenu_UIToolkit
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1073280338
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1073280337}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.UIElements.UIDocument
-  m_PanelSettings: {fileID: 11400000, guid: edaf274d9af736c4ea5a4d00bbdb3902, type: 2}
-  m_ParentUI: {fileID: 0}
-  sourceAsset: {fileID: 9197481963319205126, guid: 120d8e695af63f146b68db0fc323a927, type: 3}
-  m_SortingOrder: 10
-  m_Position: 0
-  m_WorldSpaceSizeMode: 1
-  m_WorldSpaceWidth: 1920
-  m_WorldSpaceHeight: 1080
-  m_PivotReferenceSize: 0
-  m_Pivot: 0
-  m_WorldSpaceCollider: {fileID: 0}
---- !u!4 &1073280339
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1073280337}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.5298, y: 1.36813, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1129460429
 GameObject:
   m_ObjectHideFlags: 0
@@ -1305,7 +1250,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: GameAssembly::UIManager
   gameUIDocument: {fileID: 1708314920}
   pauseMenuDocument: {fileID: 992720904}
-  startMenuDocument: {fileID: 1073280338}
   restartMenuDocument: {fileID: 379354164}
 --- !u!4 &1622135995
 Transform:
@@ -13470,7 +13414,6 @@ SceneRoots:
   - {fileID: 1357435178}
   - {fileID: 1708314917}
   - {fileID: 992720905}
-  - {fileID: 1073280339}
   - {fileID: 379354165}
   - {fileID: 1622135995}
   - {fileID: 1068938661}

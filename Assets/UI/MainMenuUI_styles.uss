@@ -93,3 +93,69 @@
 .level_button:hover {
     scale: 1.05 1.05 1.05;
 }
+
+#FPSSlider Label {
+    display: none;
+}
+
+#FPSSlider #unity-drag-container {
+}
+
+#FPSSlider #unity-tracker {
+    flex-grow: 1;
+    top: 54%;
+    left: 0;
+    visibility: hidden;
+}
+
+#FPSSlider #unity-dragger {
+    background-image: url("project://database/Assets/UI/Slider/dragger.psd?fileID=2862147669263935415&guid=9d99e65fd168b5a40b977b0b14c60151&type=3#dragger_0");
+    height: 100px;
+    width: 100px;
+    border-left-color: rgba(160, 218, 229, 0);
+    border-right-color: rgba(160, 218, 229, 0);
+    border-top-color: rgba(160, 218, 229, 0);
+    border-bottom-color: rgba(160, 218, 229, 0);
+    top: 5%;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    background-color: rgba(0, 0, 0, 0);
+}
+
+#SoundSlider Label {
+    display: none;
+}
+
+#SoundSlider #unity-drag-container {
+}
+
+#SoundSlider #unity-tracker {
+    flex-grow: 1;
+    top: 54%;
+    left: 0;
+    visibility: hidden;
+}
+
+#SoundSlider #unity-dragger {
+    background-image: url("project://database/Assets/UI/Slider/dragger.psd?fileID=2862147669263935415&guid=9d99e65fd168b5a40b977b0b14c60151&type=3#dragger_0");
+    height: 100px;
+    width: 100px;
+    border-left-color: rgba(160, 218, 229, 0);
+    border-right-color: rgba(160, 218, 229, 0);
+    border-top-color: rgba(160, 218, 229, 0);
+    border-bottom-color: rgba(160, 218, 229, 0);
+    top: 5%;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.slider-data-text {
+    color: rgb(255, 255, 255);
+}
