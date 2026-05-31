@@ -17,45 +17,13 @@ public class SettingsMenuUI : MonoBehaviour
 
     void OnEnable()
     {
-        InitializeUI();
-        // Не вызываем LoadCurrentSettings() здесь!
-        // Он будет вызван из MainMenuManager при открытии панели
+        // При включении панели сразу подтягиваем свежие данные и ищем элементы текущей сцены
+        LoadCurrentSettings();
     }
 
     void OnDisable()
     {
         UnsubscribeEvents();
-    }
-
-    /// <summary>
-    /// Инициализирует UI элементы и подписывается на события.
-    /// </summary>
-    private void InitializeUI()
-    {
-        if (settingsDocument == null)
-        {
-            Debug.LogError("SettingsDocument не назначен в SettingsMenuUI!");
-            return;
-        }
-
-        var root = settingsDocument.rootVisualElement;
-
-        // Получаем ссылки на элементы
-        fpsSlider = root.Q<SliderInt>("FPSSlider");
-        soundSlider = root.Q<Slider>("SoundSlider");
-        fpsDataLabel = root.Q<Label>("FPSData");
-        soundDataLabel = root.Q<Label>("SoundData");
-
-        // Подписываемся на изменения слайдеров
-        if (fpsSlider != null)
-        {
-            fpsSlider.RegisterValueChangedCallback(OnFPSSliderChanged);
-        }
-
-        if (soundSlider != null)
-        {
-            soundSlider.RegisterValueChangedCallback(OnSoundSliderChanged);
-        }
     }
 
     /// <summary>
@@ -65,70 +33,83 @@ public class SettingsMenuUI : MonoBehaviour
     /// </summary>
     public void LoadCurrentSettings()
     {
-        // Безопасный поиск менеджера на случай, если Instance еще не успел проснуться
-        if (SettingsManager.Instance == null)
-        {
-            // Пробуем найти его на сцене принудительно
-            var manager = FindObjectOfType<SettingsManager>();
-            if (manager == null)
-            {
-                Debug.LogWarning("[SettingsUI] SettingsManager вообще не найден на сцене!");
-                return;
-            }
-        }
+        // 1. ЗАБЫВАЕМ ПРО СТАРОЕ СОСТОЯНИЕ - отписываемся от старых событий
+        UnsubscribeEvents();
 
-        // Берем актуальные значения из синглтона
-        float vol = SettingsManager.Instance.CurrentVolume;
-        int fps = SettingsManager.Instance.CurrentFPS;
+        // 2. ОБНУЛЯЕМ все ссылки на старые UI элементы
+        fpsSlider = null;
+        soundSlider = null;
+        fpsDataLabel = null;
+        soundDataLabel = null;
 
-        Debug.Log($"[SettingsUI] Загружаем настройки: Громкость = {vol}, FPS = {fps}");
-
-        // Берем корневой элемент заново, чтобы исключить баг с неотслеживаемыми изменениями
+        // 3. ПРИНУДИТЕЛЬНО получаем свежий UIDocument
         if (settingsDocument == null)
         {
-            Debug.LogError("[SettingsUI] settingsDocument == null!");
+            settingsDocument = GetComponent<UIDocument>();
+        }
+
+        if (settingsDocument == null)
+        {
+            Debug.LogError("[SettingsMenuUI] UIDocument не найден на объекте!");
             return;
         }
 
+        // 4. ПОЛУЧАЕМ СВЕЖИЙ ROOT из актуальной сцены
         var root = settingsDocument.rootVisualElement;
+        if (root == null)
+        {
+            Debug.LogError("[SettingsMenuUI] rootVisualElement == null!");
+            return;
+        }
 
-        // Ищем слайдеры и лейблы
-        var soundSlider = root.Q<Slider>("SoundSlider");
-        var fpsSlider = root.Q<SliderInt>("FPSSlider");
-        var soundLabel = root.Q<Label>("SoundData");
-        var fpsLabel = root.Q<Label>("FPSData");
+        // 5. ПЕРЕНАХОДИМ элементы заново на сцене
+        fpsSlider = root.Q<SliderInt>("FPSSlider");
+        soundSlider = root.Q<Slider>("SoundSlider");
+        fpsDataLabel = root.Q<Label>("FPSData");
+        soundDataLabel = root.Q<Label>("SoundData");
 
         // Проверяем, что все элементы найдены
-        if (soundSlider == null) Debug.LogError("[SettingsUI] SoundSlider не найден!");
-        if (fpsSlider == null) Debug.LogError("[SettingsUI] FPSSlider не найден!");
-        if (soundLabel == null) Debug.LogError("[SettingsUI] SoundData не найден!");
-        if (fpsLabel == null) Debug.LogError("[SettingsUI] FPSData не найден!");
+        if (fpsSlider == null) Debug.LogError("[SettingsMenuUI] FPSSlider не найден!");
+        if (soundSlider == null) Debug.LogError("[SettingsMenuUI] SoundSlider не найден!");
+        if (fpsDataLabel == null) Debug.LogError("[SettingsMenuUI] FPSData не найден!");
+        if (soundDataLabel == null) Debug.LogError("[SettingsMenuUI] SoundData не найден!");
 
-        // Устанавливаем значения слайдеров БЕЗ вызова событий
+        // 6. БЕЗОПАСНЫЙ ПОИСК МЕНЕДЖЕРА
+        if (SettingsManager.Instance == null)
+        {
+            Debug.LogWarning("[SettingsMenuUI] SettingsManager.Instance == null! Это не должно происходить. Убедитесь, что SettingsManager существует на сцене.");
+            return;
+        }
+
+        // 7. БЕРЕМ АКТУАЛЬНЫЕ ЗНАЧЕНИЯ из менеджера
+        float vol = SettingsManager.Instance.CurrentVolume;
+        int fps = SettingsManager.Instance.CurrentFPS;
+
+        // 8. УСТАНАВЛИВАЕМ ЗНАЧЕНИЯ БЕЗ УВЕДОМЛЕНИЯ (SetValueWithoutNotify)
         if (soundSlider != null)
         {
             soundSlider.SetValueWithoutNotify(vol);
-            Debug.Log($"[SettingsUI] SoundSlider установлен в {vol}");
         }
 
         if (fpsSlider != null)
         {
             fpsSlider.SetValueWithoutNotify(fps);
-            Debug.Log($"[SettingsUI] FPSSlider установлен в {fps}");
         }
 
-        // Принудительно обновляем текст
-        if (soundLabel != null)
+        // 9. ОБНОВЛЯЕМ ЛЕЙБЛЫ
+        UpdateSoundLabel(vol);
+        UpdateFPSLabel(fps);
+
+        // 10. СТРОГО ПОСЛЕ ЭТОГО ПОДПИСЫВАЕМСЯ НА СОБЫТИЯ
+        if (fpsSlider != null)
         {
-            soundLabel.text = $"{Mathf.RoundToInt(vol * 100f)}%";
+            fpsSlider.RegisterValueChangedCallback(OnFPSSliderChanged);
         }
 
-        if (fpsLabel != null)
+        if (soundSlider != null)
         {
-            fpsLabel.text = $"{fps} FPS";
+            soundSlider.RegisterValueChangedCallback(OnSoundSliderChanged);
         }
-
-        Debug.Log($"[SettingsUI] Визуальные настройки успешно обновлены: Громкость {vol}, FPS {fps}");
     }
 
     /// <summary>
@@ -185,7 +166,8 @@ public class SettingsMenuUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Отписывается от событий при отключении.
+    /// Отписывается от событий слайдеров.
+    /// Безопасно работает даже если элементы == null.
     /// </summary>
     private void UnsubscribeEvents()
     {

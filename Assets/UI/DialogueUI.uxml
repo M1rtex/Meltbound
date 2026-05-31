@@ -1,0 +1,8 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/DialogueUI.uss?fileID=7433441132597879392&amp;guid=2ce7303e81ae4f141b055e9cfc907b19&amp;type=3#DialogueUI"/>
+    <ui:VisualElement name="DialoguePanel" picking-mode="Ignore" class="dialogue-panel">
+        <ui:VisualElement name="DialogueBox" picking-mode="Ignore" class="dialogue-box" style="padding-top: 36px;">
+            <ui:Label text="Текст подсказки" name="DialogueText" picking-mode="Ignore" class="dialogue-text"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

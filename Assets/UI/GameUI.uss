@@ -128,8 +128,20 @@
     text-shadow: 0 0 15px rgba(255, 80, 80, 0.7);
 }
 
+.win-title {
+    color: rgb(100, 255, 150);
+    text-shadow: 0 0 15px rgba(80, 255, 120, 0.7);
+    position: relative;
+    margin-top: 0;
+    margin-bottom: 30px;
+    width: auto;
+    -unity-text-align: middle-center;
+    white-space: normal;
+    font-size: 48px;
+}
+
 .menu-button {
-    width: 280px;
+    width: 320px;
     height: 70px;
     margin-top: 18px;
     background-color: rgba(70, 130, 180, 0.9);
@@ -137,9 +149,13 @@
     border-width: 3px;
     border-color: rgba(120, 180, 240, 0.95);
     color: rgb(255, 255, 255);
-    font-size: 28px;
+    font-size: 24px;
     -unity-font-style: bold;
     transition-duration: 0.2s;
+    white-space: normal;
+    -unity-text-align: middle-center;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .menu-button:hover {

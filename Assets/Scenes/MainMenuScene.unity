@@ -175,6 +175,7 @@ MonoBehaviour:
   mainMenuDocument: {fileID: 285347963}
   selectLevelDocument: {fileID: 855037216}
   settingsDocument: {fileID: 1611020369}
+  settingsMenuUI: {fileID: 1611020371}
 --- !u!4 &263323676
 Transform:
   m_ObjectHideFlags: 0
@@ -3662,7 +3663,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1493580316}
   - component: {fileID: 1493580315}
-  - component: {fileID: 1493580317}
   m_Layer: 0
   m_Name: SettingsManager
   m_TagString: Untagged
@@ -3698,19 +3698,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1493580317
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1493580314}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14b4209e10e231242b1634a6ec53173e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: GameAssembly::SettingsMenuUI
-  settingsDocument: {fileID: 1611020369}
 --- !u!1 &1611020368
 GameObject:
   m_ObjectHideFlags: 0
@@ -3721,6 +3708,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1611020370}
   - component: {fileID: 1611020369}
+  - component: {fileID: 1611020371}
   m_Layer: 0
   m_Name: SettingsMenuUI
   m_TagString: Untagged
@@ -3766,6 +3754,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1611020371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1611020368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14b4209e10e231242b1634a6ec53173e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::SettingsMenuUI
+  settingsDocument: {fileID: 1611020369}
 --- !u!1 &1621513440
 GameObject:
   m_ObjectHideFlags: 0

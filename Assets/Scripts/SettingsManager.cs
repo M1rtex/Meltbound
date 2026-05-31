@@ -30,18 +30,26 @@ public class SettingsManager : MonoBehaviour
 
     void Awake()
     {
-        // Реализация синглтона
-        if (Instance != null && Instance != this)
+        // Реализация синглтона - ЖЕСТКАЯ проверка на дубликаты
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+
+            // Загружаем сохраненные настройки
+            LoadSettings();
+        }
+        else if (Instance != this)
         {
             Destroy(gameObject);
             return;
         }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-
-        // Загружаем сохраненные настройки
-        LoadSettings();
+        else
+        {
+            // Instance == this, значит это тот же самый объект
+            // Загружаем сохраненные настройки заново
+            LoadSettings();
+        }
     }
 
     void Start()
@@ -61,8 +69,6 @@ public class SettingsManager : MonoBehaviour
 
         // Теперь жестко применяем и FPS, и громкость микшера
         ApplySettings();
-
-        Debug.Log($"Настройки применены при старте: Громкость = {currentVolume}, FPS = {currentFPS}");
     }
 
     /// <summary>
@@ -73,8 +79,6 @@ public class SettingsManager : MonoBehaviour
     {
         currentVolume = PlayerPrefs.GetFloat(VOLUME_KEY, DEFAULT_VOLUME);
         currentFPS = PlayerPrefs.GetInt(FPS_KEY, DEFAULT_FPS);
-
-        Debug.Log($"Настройки загружены: Громкость = {currentVolume}, FPS = {currentFPS}");
     }
 
     /// <summary>
@@ -90,8 +94,6 @@ public class SettingsManager : MonoBehaviour
 
         // Принудительно сохраняем на диск
         PlayerPrefs.Save();
-
-        Debug.Log($"Настройки сохранены: Громкость = {currentVolume}, FPS = {currentFPS}");
 
         ApplySettings();
     }

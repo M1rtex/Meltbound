@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="GameUI.uss" />
+    <ui:VisualElement name="WinPanel" class="menu-overlay">
+        <ui:VisualElement name="WinContainer" class="menu-panel">
+            <ui:Label name="WinTitle" text="УРОВЕНЬ ПРОЙДЕН!" class="menu-title win-title" />
+            <ui:Button name="NextLevelButton" text="Следующий уровень" class="menu-button" />
+            <ui:Button name="MainMenuButton" text="Главное меню" class="menu-button" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
