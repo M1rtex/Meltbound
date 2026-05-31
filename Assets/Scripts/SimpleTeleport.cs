@@ -1,105 +1,164 @@
 using UnityEngine;
 using System.Collections;
-using UnityEngine.InputSystem;
 
+/// <summary>
+/// Автоматическая телепортация через трубы с эффектом выталкивания игрока.
+/// При касании триггера игрок мгновенно перемещается к destination,
+/// камера плавно летит к новой позиции, затем игрока выталкивает в заданном направлении.
+/// </summary>
 public class SimpleTeleport : MonoBehaviour
 {
+    [Header("Настройки телепортации")]
     [SerializeField] private Transform destination;
-    [SerializeField] private float travelDuration = 0.5f;
-    [SerializeField] private Key activationKey = Key.S;
+    [Tooltip("Время, пока камера летит к новой точке (секунды)")]
+    [SerializeField] private float travelTime = 0.5f;
 
-    private bool isPlayerInPipe = false;
-    private GameObject player;
+    [Header("Настройки выталкивания")]
+    [Tooltip("Направление выталкивания игрока (например, (0, 1) — вверх, (1, 0) — вправо)")]
+    [SerializeField] private Vector2 launchDirection = Vector2.up;
+    [Tooltip("Сила выталкивания снеговика")]
+    [SerializeField] private float launchForce = 10f;
+
     private bool isTeleporting = false;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        // Проверяем, что вошел игрок и телепортация не активна
+        if (collision.CompareTag("Player") && !isTeleporting)
         {
-            isPlayerInPipe = true;
-            player = collision.gameObject;
+            Debug.Log($"[SimpleTeleport] Игрок вошел в триггер на {gameObject.name}. Начинаем телепортацию.");
+            StartCoroutine(TeleportRoutine(collision.gameObject));
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    /// <summary>
+    /// Корутина телепортации: отключает управление, плавно перемещает игрока с вращением, выталкивает.
+    /// </summary>
+    private IEnumerator TeleportRoutine(GameObject player)
     {
-        if (collision.CompareTag("Player"))
-        {
-            isPlayerInPipe = false;
-            player = null;
-        }
-    }
-
-    private void Update()
-    {
-        if (isPlayerInPipe && !isTeleporting && Keyboard.current[activationKey].wasPressedThisFrame)
-        {
-            StartCoroutine(SmoothTravelRoutine());
-        }
-    }
-
-    IEnumerator SmoothTravelRoutine()
-    {
-
+        // Проверка наличия точки назначения
         if (destination == null)
         {
-            Debug.LogError($"На объекте {gameObject.name} не назначена точка Destination!");
-            yield break; // Выходим из корутины, чтобы не было ошибки
-        }
-        
-        if (player == null)
-        {
-            Debug.LogWarning("Попытка телепортации, но объект игрока не найден.");
+            Debug.LogError($"[SimpleTeleport] На объекте {gameObject.name} не назначена точка Destination!");
             yield break;
         }
 
+        if (player == null)
+        {
+            Debug.LogWarning("[SimpleTeleport] Объект игрока не найден.");
+            yield break;
+        }
+
+        // Устанавливаем флаг телепортации
         isTeleporting = true;
 
-        Vector3 startPos = player.transform.position;
-        Vector3 targetPos = destination.position;
+        // Получаем компоненты игрока
+        Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
+        PlayerMovement movement = player.GetComponent<PlayerMovement>();
+        Collider2D playerCollider = player.GetComponent<Collider2D>();
 
-        // 1. Подготовка компонентов
-        var activePlayer = player;
-        var rb = activePlayer.GetComponent<Rigidbody2D>();
-        var movement = activePlayer.GetComponent<PlayerMovement>();
-        var sprite = activePlayer.GetComponent<SpriteRenderer>();
+        if (rb == null)
+        {
+            Debug.LogError("[SimpleTeleport] У игрока отсутствует Rigidbody2D!");
+            isTeleporting = false;
+            yield break;
+        }
 
-        // Выключаем управление и физику (чтобы не падал во время полета)
+        Debug.Log("[SimpleTeleport] Отключаем управление и коллайдер игрока.");
+
+        // 1. ОТКЛЮЧАЕМ управление и коллайдер перед телепортацией
         if (movement != null) movement.enabled = false;
-        rb.bodyType = RigidbodyType2D.Kinematic;
-        rb.linearVelocity = Vector2.zero;
-        
-        float elapsedTime = 0;
+        if (playerCollider != null) playerCollider.enabled = false;
 
-        // 2. Процесс плавного перемещения (Lerp)
-        while (elapsedTime < travelDuration)
-        {   
-            // Проверяем, не удалили ли игрока случайно во время полета
-            if (activePlayer == null) {
+        // Переводим в кинематический режим и обнуляем скорость
+        rb.isKinematic = true;
+        rb.linearVelocity = Vector2.zero;
+
+        // Сохраняем исходный масштаб (если захотим уменьшить снеговика в полёте)
+        Vector3 originalScale = player.transform.localScale;
+
+        // Опционально: уменьшаем масштаб, чтобы казалось, что протискивается в трубу
+        // player.transform.localScale *= 0.7f;
+
+        // 2. ПЛАВНОЕ ПЕРЕМЕЩЕНИЕ с вращением
+        Vector3 startPosition = player.transform.position;
+        float elapsed = 0f;
+
+        Debug.Log($"[SimpleTeleport] Начинаем плавный полёт от {startPosition} к {destination.position}");
+
+        while (elapsed < travelTime)
+        {
+            // Проверяем, не удалили ли игрока во время полёта
+            if (player == null)
+            {
+                Debug.LogWarning("[SimpleTeleport] Игрок был удалён во время телепортации!");
+                isTeleporting = false;
                 yield break;
             }
-            
-            elapsedTime += Time.deltaTime;
-            float t = elapsedTime / travelDuration;
 
-            // Плавное движение по прямой
-            activePlayer.transform.position = Vector3.Lerp(startPos, targetPos, t);
+            elapsed += Time.deltaTime;
+            float t = elapsed / travelTime;
 
-            // Плейсхолдер анимации: крутим снеговика вокруг своей оси
-            activePlayer.transform.Rotate(0, 0, 720 * Time.deltaTime);
+            // Плавно перемещаем между трубами
+            player.transform.position = Vector3.Lerp(startPosition, destination.position, t);
 
-            yield return null; // Ждем следующего кадра
+            // Красиво крутим снеговика в полёте вокруг своей оси (720 градусов в секунду)
+            player.transform.Rotate(0, 0, 720f * Time.deltaTime);
+
+            yield return null; // Ждём следующего кадра
         }
 
-        // 3. Завершение
-        if (activePlayer != null)
-        {
-            activePlayer.transform.position = targetPos;
-            activePlayer.transform.rotation = Quaternion.identity; // Сбрасываем вращение
-            rb.bodyType = RigidbodyType2D.Dynamic;
-            if (movement != null) movement.enabled = true;
-        }
+        // 3. ФИНАЛ ПОЛЁТА - убеждаемся, что игрок точно в конечной точке
+        player.transform.position = destination.position;
 
+        // Сбрасываем поворот игрока в дефолтный (чтобы не стоял вверх ногами)
+        player.transform.rotation = Quaternion.identity;
+
+        // Возвращаем исходный масштаб, если меняли
+        player.transform.localScale = originalScale;
+
+        Debug.Log("[SimpleTeleport] Полёт завершён. Включаем игрока обратно.");
+
+        // 4. ВКЛЮЧАЕМ игрока обратно
+        rb.isKinematic = false;
+
+        if (playerCollider != null) playerCollider.enabled = true;
+        if (movement != null) movement.enabled = true;
+
+        // 5. ВЫТАЛКИВАЕМ игрока в заданном направлении
+        Vector2 normalizedDirection = launchDirection.normalized;
+        Vector2 force = normalizedDirection * launchForce;
+
+        rb.AddForce(force, ForceMode2D.Impulse);
+
+        Debug.Log($"[SimpleTeleport] Игрок вытолкнут! Направление: {normalizedDirection}, Сила: {launchForce}, Итоговый импульс: {force}");
+
+        // Сбрасываем флаг телепортации
         isTeleporting = false;
+
+        Debug.Log("[SimpleTeleport] Телепортация завершена.");
+    }
+
+    // Визуализация направления выталкивания в редакторе
+    private void OnDrawGizmos()
+    {
+        if (destination != null)
+        {
+            // Рисуем линию от этого объекта к точке назначения
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawLine(transform.position, destination.position);
+
+            // Рисуем стрелку направления выталкивания в точке назначения
+            Gizmos.color = Color.red;
+            Vector3 launchStart = destination.position;
+            Vector3 launchEnd = launchStart + (Vector3)(launchDirection.normalized * 2f);
+            Gizmos.DrawLine(launchStart, launchEnd);
+
+            // Рисуем конус стрелки
+            Vector3 arrowTip = launchEnd;
+            Vector3 perpendicular = Vector3.Cross(launchDirection.normalized, Vector3.forward).normalized * 0.3f;
+            Gizmos.DrawLine(arrowTip, arrowTip - (Vector3)(launchDirection.normalized * 0.5f) + perpendicular);
+            Gizmos.DrawLine(arrowTip, arrowTip - (Vector3)(launchDirection.normalized * 0.5f) - perpendicular);
+        }
     }
 }
