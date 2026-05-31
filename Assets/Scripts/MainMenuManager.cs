@@ -246,14 +246,15 @@ public class MainMenuManager : MonoBehaviour
         switch (levelIndex)
         {
             case 1:
-                return "SampleScene";
+                return "Level1";
             case 2:
-                return "TeleportTestScene";
+                return "Level2";
             case 3:
+                return "Level3";
             case 4:
+                return "Level4";
             case 5:
-                Debug.LogWarning($"Уровень {levelIndex} еще не создан");
-                return null;
+                return "Level5";
             default:
                 return null;
         }
