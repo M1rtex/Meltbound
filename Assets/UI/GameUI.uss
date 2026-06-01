@@ -75,9 +75,10 @@
     border-width: 3px;
     border-color: rgba(120, 180, 240, 0.9);
     color: rgb(255, 255, 255);
-    font-size: 20px;
+    font-size: 16px;
     -unity-font-style: bold;
     transition-duration: 0.2s;
+    -unity-font-definition: url("project://database/Assets/UI%20Toolkit/Fonts/NineteenEightySeven-MzMJ.ttf?fileID=12800000&guid=32dcdc183783944a2a556c29732195ee&type=3#NineteenEightySeven-MzMJ");
 }
 
 .game-button:hover {
@@ -116,11 +117,12 @@
 }
 
 .menu-title {
-    font-size: 56px;
+    font-size: 42px;
     color: rgb(200, 230, 255);
     -unity-font-style: bold;
     margin-bottom: 50px;
     -unity-text-align: middle-center;
+    -unity-font-definition: url("project://database/Assets/UI%20Toolkit/Fonts/NineteenEightySeven-MzMJ.ttf?fileID=12800000&guid=32dcdc183783944a2a556c29732195ee&type=3#NineteenEightySeven-MzMJ");
 }
 
 .game-over-title {
@@ -137,7 +139,8 @@
     width: auto;
     -unity-text-align: middle-center;
     white-space: normal;
-    font-size: 48px;
+    font-size: 36px;
+    -unity-font-definition: url("project://database/Assets/UI%20Toolkit/Fonts/NineteenEightySeven-MzMJ.ttf?fileID=12800000&guid=32dcdc183783944a2a556c29732195ee&type=3#NineteenEightySeven-MzMJ");
 }
 
 .menu-button {
@@ -149,13 +152,14 @@
     border-width: 3px;
     border-color: rgba(120, 180, 240, 0.95);
     color: rgb(255, 255, 255);
-    font-size: 24px;
+    font-size: 18px;
     -unity-font-style: bold;
     transition-duration: 0.2s;
     white-space: normal;
     -unity-text-align: middle-center;
     padding-left: 10px;
     padding-right: 10px;
+    -unity-font-definition: url("project://database/Assets/UI%20Toolkit/Fonts/NineteenEightySeven-MzMJ.ttf?fileID=12800000&guid=32dcdc183783944a2a556c29732195ee&type=3#NineteenEightySeven-MzMJ");
 }
 
 .menu-button:hover {
@@ -185,4 +189,5 @@
     opacity: 1;
     transition-property: opacity;
     transition-duration: 1s;
+    -unity-font-definition: url("project://database/Assets/UI%20Toolkit/Fonts/NineteenEightySeven-MzMJ.ttf?fileID=12800000&guid=32dcdc183783944a2a556c29732195ee&type=3#NineteenEightySeven-MzMJ");
 }

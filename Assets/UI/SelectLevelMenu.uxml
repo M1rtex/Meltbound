@@ -4,9 +4,9 @@
         <ui:VisualElement name="Container" class="menu" style="flex-grow: 1; align-self: center; opacity: 1; max-height: none; aspect-ratio: auto; overflow: visible;">
             <ui:VisualElement name="Header" style="flex-grow: 1; margin-top: -29%; flex-direction: row; justify-content: space-between; align-items: center; width: 100%; align-self: flex-start; margin-bottom: -15%;">
                 <ui:VisualElement name="ButtonsContainer" class="buttons_container" style="flex-grow: 1; height: 40%; align-content: center; flex-direction: column-reverse; align-self: center; justify-content: flex-start; align-items: center; padding-left: 0%; width: 60%; padding-right: 0%;">
-                    <ui:Button text="Назад" name="Button" class="button" style="height: 30%; width: 50%;"/>
+                    <ui:Button text="Назад" name="Button" class="button" style="height: 30%; width: 255px; background-image: url(&quot;project://database/Assets/UI/Button/button_background.png?fileID=-9048593517765135490&amp;guid=640f88b0766074ef7b9666e1d8225617&amp;type=3#button_background_0&quot;);"/>
                 </ui:VisualElement>
-                <ui:Label text="Выбор уровня" style="font-size: 86px; padding-top: 10%; margin-right: 0; margin-left: 0; margin-top: 0; margin-bottom: 0; -unity-font-style: bold;"/>
+                <ui:Label text="Выбор уровня" style="font-size: 86px; padding-top: 10%; margin-right: 0; margin-left: 0; margin-top: 0; margin-bottom: 0; -unity-font-style: bold; color: rgb(15, 53, 102);"/>
                 <ui:Image source="project://database/Assets/UI/Logo/logo_gemini_1.png?fileID=-5601709513805781167&amp;guid=4400910a13bb4e84f99178bfa9d8a108&amp;type=3#logo_gemini_1_0" picking-mode="Ignore" style="margin-bottom: 0%; flex-grow: 0; scale: 0.8 0.8 0.8; transform-origin: center center 1px; translate: 0 0 1px; margin-top: 0; height: 592px; width: 1001px; position: relative; top: auto; opacity: 1; visibility: visible;"/>
             </ui:VisualElement>
             <ui:VisualElement name="LevelsContainer" class="buttons_container" style="flex-grow: 1; flex-direction: row; align-items: center; justify-content: space-between;">
