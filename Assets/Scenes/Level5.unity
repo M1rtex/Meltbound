@@ -39346,6 +39346,14 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: 4.0039077
       objectReference: {fileID: 0}
+    - target: {fileID: 6944093625059438420, guid: dd499617a31f2a24c83e8767e8c65f06, type: 3}
+      propertyPath: customWinTitle
+      value: "\u0421\u043F\u0430\u0441\u0438\u0431\u043E \u0437\u0430 \u0438\u0433\u0440\u0443!"
+      objectReference: {fileID: 0}
+    - target: {fileID: 6944093625059438420, guid: dd499617a31f2a24c83e8767e8c65f06, type: 3}
+      propertyPath: showNextLevelButton
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
