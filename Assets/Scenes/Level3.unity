@@ -93533,6 +93533,14 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 3365344359251834702, guid: c7054fb8251209449914a916be111041, type: 3}
+      propertyPath: VelocityModule.x.scalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3365344359251834702, guid: c7054fb8251209449914a916be111041, type: 3}
+      propertyPath: VelocityModule.y.scalar
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3967794625959001636, guid: c7054fb8251209449914a916be111041, type: 3}
       propertyPath: useGustEffect
       value: 0
