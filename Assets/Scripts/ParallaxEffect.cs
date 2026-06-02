@@ -26,12 +26,7 @@ public class ParallaxEffect : MonoBehaviour
         translationOffset += independantSpeed * Time.deltaTime * parallaxIntensityX;
 
         float parallaxOffsetX = (mainCamera.position.x * (1 - (parallaxIntensityX / 2))) + translationOffset;
-        
+
         transform.position = new Vector2(initialPos.x + parallaxOffsetX, initialPos.y);
-
-
-        
     }
 }
-
-

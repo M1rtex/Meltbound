@@ -162,3 +162,10 @@
 .slider-data-text {
     color: rgb(255, 255, 255);
 }
+
+.slider-and-data-frame {
+    flex-direction: row;
+    justify-content: space-between;
+    min-width: 725px;
+    margin-top: 20px;
+}

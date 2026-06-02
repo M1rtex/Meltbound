@@ -26,7 +26,7 @@ public class HealthBar : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    void Start()
+    private void Start()
     {
         currentHealth = maxHealth;
 
@@ -34,9 +34,17 @@ public class HealthBar : MonoBehaviour
         {
             uiController.UpdateHealthBar(currentHealth, maxHealth);
         }
+
+        if (animator != null)
+        {
+            animator.SetFloat("PlayerHealth", currentHealth);
+            animator.Update(0f);
+        }
+
+        Debug.Log($"[HealthBar] Здоровье сброшено на {currentHealth}. Аниматор синхронизирован.");
     }
 
-    void Update()
+    private void Update()
     {
         if (isDead) return;
 
@@ -74,11 +82,11 @@ public class HealthBar : MonoBehaviour
         Debug.Log("Полечились на: " + amount + ". Текущее HP: " + currentHealth);
     }
 
-    void GameOver()
+    private void GameOver()
     {
         isDead = true;
         Debug.Log("Game Over! Здоровье закончилось.");
-        
+
         if (audioSource != null && gameOverSound != null)
         {
             audioSource.PlayOneShot(gameOverSound);

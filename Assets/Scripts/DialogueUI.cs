@@ -13,7 +13,6 @@ public class DialogueUI : MonoBehaviour
 
     private void Awake()
     {
-        // Синглтон паттерн
         if (Instance != null && Instance != this)
         {
             Debug.LogWarning("[DialogueUI] Обнаружен дубликат DialogueUI, уничтожаем.");
@@ -27,7 +26,6 @@ public class DialogueUI : MonoBehaviour
 
     private void Start()
     {
-        // Получаем UIDocument компонент
         uiDocument = GetComponent<UIDocument>();
         if (uiDocument == null)
         {
@@ -35,7 +33,6 @@ public class DialogueUI : MonoBehaviour
             return;
         }
 
-        // Находим элементы UI
         VisualElement root = uiDocument.rootVisualElement;
         dialogueBox = root.Q<VisualElement>("DialogueBox");
         dialogueText = root.Q<Label>("DialogueText");
@@ -52,16 +49,10 @@ public class DialogueUI : MonoBehaviour
             return;
         }
 
-        // По умолчанию скрываем диалоговое окно
         HideDialogue();
         Debug.Log("[DialogueUI] UI элементы найдены и скрыты по умолчанию.");
     }
 
-    /// <summary>
-    /// Показывает подсказку с заданным текстом на указанное время
-    /// </summary>
-    /// <param name="text">Текст подсказки</param>
-    /// <param name="duration">Длительность показа в секундах (по умолчанию 4 секунды)</param>
     public void ShowHint(string text, float duration = 4f)
     {
         if (dialogueBox == null || dialogueText == null)
@@ -72,25 +63,16 @@ public class DialogueUI : MonoBehaviour
 
         Debug.Log($"[DialogueUI] Показываем подсказку: \"{text}\" на {duration} сек.");
 
-        // Останавливаем предыдущую корутину скрытия, если она была запущена
         if (hideCoroutine != null)
         {
             StopCoroutine(hideCoroutine);
         }
 
-        // Устанавливаем текст
         dialogueText.text = text;
-
-        // Показываем диалоговое окно
         dialogueBox.style.display = DisplayStyle.Flex;
-
-        // Запускаем таймер автоматического скрытия
         hideCoroutine = StartCoroutine(HideAfterDelay(duration));
     }
 
-    /// <summary>
-    /// Корутина для автоматического скрытия диалога через заданное время
-    /// </summary>
     private IEnumerator HideAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -98,9 +80,6 @@ public class DialogueUI : MonoBehaviour
         Debug.Log("[DialogueUI] Подсказка автоматически скрыта.");
     }
 
-    /// <summary>
-    /// Скрывает диалоговое окно
-    /// </summary>
     private void HideDialogue()
     {
         if (dialogueBox != null)

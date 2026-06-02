@@ -26,19 +26,20 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     [SerializeField] private Vector2 groundCheckSize = new Vector2(0.4f, 0.1f);
 
-    [Header("Wall Check (Кубы)")][Tooltip("Объект wallCheck должен быть РОВНО В ЦЕНТРЕ персонажа")]
+    [Header("Wall Check")]
+    [Tooltip("Объект wallCheck должен быть ровно в центре персонажа")]
     [SerializeField] private Transform wallCheck;
     [SerializeField] private Vector2 wallCheckSize = new Vector2(0.15f, 0.5f);
-    [SerializeField] private float wallCheckOffset = 0.3f; // На сколько кубы сдвинуты влево и вправо от центра
+    [SerializeField] private float wallCheckOffset = 0.3f;
 
     [Header("Slope Settings")]
-    [SerializeField] private float maxSlopeAngle = 45f; // Максимальный угол наклона, по которому можно ходить
-    [SerializeField] private float slopeCheckDistance = 0.5f; // Дистанция проверки наклона
+    [SerializeField] private float maxSlopeAngle = 45f;
+    [SerializeField] private float slopeCheckDistance = 0.5f;
 
     [Header("Audio Settings")]
-    [SerializeField] private AudioSource footstepAudio; // Для зацикленных шагов
-    [SerializeField] private AudioSource sfxAudio;      // НОВЫЙ ПОЛЕ: для разовых эффектов (прыжки)
-    [SerializeField] private AudioClip jumpSound;       // Клип прыжка
+    [SerializeField] private AudioSource footstepAudio;
+    [SerializeField] private AudioSource sfxAudio;
+    [SerializeField] private AudioClip jumpSound;
 
     private Rigidbody2D rb;
     private Animator animator;
@@ -72,7 +73,6 @@ public class PlayerMovement : MonoBehaviour
     {
         bool isGrounded = IsGrounded();
 
-        // Логика Койота
         if (isGrounded && rb.linearVelocity.y <= 0.01f)
         {
             coyoteTimeCounter = coyoteTime;
@@ -83,7 +83,6 @@ public class PlayerMovement : MonoBehaviour
             coyoteTimeCounter -= Time.deltaTime;
         }
 
-        // Обработка Буфера прыжка: если кнопка была нажата заранее и мы на земле
         if (jumpBufferCounter > 0)
         {
             jumpBufferCounter -= Time.deltaTime;
@@ -94,20 +93,17 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        // Динамическое удержание (уменьшение гравитации для затяжного прыжка)
         if (isJumpButtonHeld && rb.linearVelocity.y > 0)
         {
             rb.linearVelocity += Vector2.up * Physics2D.gravity.y * (1f - jumpReleaseMultiplier) * Time.deltaTime;
         }
 
-        // Увеличенная гравитация при падении для более естественного движения
         if (rb.linearVelocity.y < 0)
         {
             rb.linearVelocity += Vector2.up * Physics2D.gravity.y * (fallGravityMultiplier - 1) * Time.deltaTime;
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, Mathf.Max(rb.linearVelocity.y, -maxFallSpeed));
         }
 
-        // Раннее отпускание кнопки прыжка (Jump Cut)
         if (jumpAction.WasReleasedThisFrame() && rb.linearVelocity.y > 0)
         {
             isJumpButtonHeld = false;
@@ -117,7 +113,6 @@ public class PlayerMovement : MonoBehaviour
 
         wasGroundedLastFrame = isGrounded;
 
-        // Оставшаяся логика WallJumpTimer и аниматора...
         if (wallJumpTimer > 0)
         {
             wallJumpTimer -= Time.deltaTime;
@@ -207,7 +202,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (footstepAudio.isPlaying)
             {
-                footstepAudio.Stop(); // Теперь этот Stop() не заденет прыжок!
+                footstepAudio.Stop();
             }
         }
     }
@@ -236,7 +231,6 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                // Устанавливаем буфер только если не прыгнули сразу
                 jumpBufferCounter = jumpBufferTime;
             }
         }
@@ -247,17 +241,18 @@ public class PlayerMovement : MonoBehaviour
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         isJumping = true;
         PlayJumpSound();
-        isJumpButtonHeld = true; // Вот теперь мы легитимно держим кнопку прыжка!
-        coyoteTimeCounter = 0;   // Сразу обнуляем Койота
-        jumpBufferCounter = 0;   // Очищаем буфер
+        isJumpButtonHeld = true;
+        coyoteTimeCounter = 0;
+        jumpBufferCounter = 0;
     }
+
     private void WallJump()
     {
         wallJumpTimer = wallJumpDuration;
         float wallDirection = IsWalledLeft() ? 1f : -1f;
-        
+
         rb.linearVelocity = new Vector2(wallDirection * wallJumpPower.x, wallJumpPower.y);
-        
+
         if (wallDirection > 0 && !isFacingRight) Flip();
         else if (wallDirection < 0 && isFacingRight) Flip();
 
@@ -266,7 +261,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void PlayJumpSound()
     {
-        // Используем sfxAudio вместо footstepAudio
         if (sfxAudio != null && jumpSound != null)
         {
             sfxAudio.PlayOneShot(jumpSound);

@@ -18,7 +18,6 @@ public class HintTrigger : MonoBehaviour
 
     private void Start()
     {
-        // Проверяем наличие BoxCollider2D и что он настроен как триггер
         BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
         if (boxCollider == null)
         {
@@ -37,17 +36,14 @@ public class HintTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Проверяем, что вошел игрок
         if (collision.CompareTag("Player"))
         {
-            // Если подсказка уже была показана и стоит флаг triggerOnlyOnce, выходим
             if (hasTriggered && triggerOnlyOnce)
             {
                 Debug.Log($"[HintTrigger] Игрок вошел в триггер {gameObject.name}, но подсказка уже была показана.");
                 return;
             }
 
-            // Проверяем наличие DialogueUI синглтона
             if (DialogueUI.Instance == null)
             {
                 Debug.LogError("[HintTrigger] DialogueUI.Instance не найден! Убедитесь, что DialogueUI присутствует на сцене.");
@@ -56,13 +52,10 @@ public class HintTrigger : MonoBehaviour
 
             Debug.Log($"[HintTrigger] Игрок вошел в триггер {gameObject.name}. Показываем подсказку.");
 
-            // Показываем подсказку
             DialogueUI.Instance.ShowHint(hintText, displayDuration);
 
-            // Отмечаем, что триггер сработал
             hasTriggered = true;
 
-            // Если нужно показывать только один раз, отключаем триггер
             if (triggerOnlyOnce)
             {
                 BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
@@ -77,7 +70,6 @@ public class HintTrigger : MonoBehaviour
 
     private void OnValidate()
     {
-        // Проверка в редакторе
         if (displayDuration <= 0)
         {
             Debug.LogWarning($"[HintTrigger] displayDuration должна быть больше 0! Установлено значение по умолчанию 5 сек.");

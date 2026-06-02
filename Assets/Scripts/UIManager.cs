@@ -25,13 +25,12 @@ public class UIManager : MonoBehaviour
     private Button restartButtonMenu;
     private Button quitButtonMenu;
 
-    void Awake()
+    private void Awake()
     {
         InitializeGameUI();
         InitializePauseMenu();
         InitializeRestartMenu();
 
-        // Игра начинается сразу, без заставки
         Time.timeScale = 1f;
 
         if (isRestarting)
@@ -40,16 +39,15 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    void Start()
+    private void Start()
     {
-        // Запускаем анимацию баннера уровня
         if (levelBanner != null)
         {
             StartCoroutine(ShowLevelBanner());
         }
     }
 
-    void OnDestroy()
+    private void OnDestroy()
     {
         UnsubscribeEvents();
     }
@@ -69,11 +67,9 @@ public class UIManager : MonoBehaviour
         if (restartButton != null)
             restartButton.clicked += OnRestartPress;
 
-        // Определяем номер уровня из индекса сцены
         if (levelBanner != null)
         {
             int levelIndex = SceneManager.GetActiveScene().buildIndex;
-            // Если первая сцена (индекс 0) — это главное меню, вычитаем 1
             int levelNumber = levelIndex > 0 ? levelIndex : 1;
             levelBanner.text = $"Уровень {levelNumber}";
         }
@@ -206,28 +202,18 @@ public class UIManager : MonoBehaviour
             restartOverlay.style.display = DisplayStyle.None;
     }
 
-    /// <summary>
-    /// Загружает сцену главного меню.
-    /// Перед загрузкой восстанавливает нормальный ход времени.
-    /// </summary>
     private void LoadMainMenu()
     {
-        // Восстанавливаем нормальный ход времени перед загрузкой сцены
         Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenuScene");
     }
 
-    /// <summary>
-    /// Показывает баннер уровня и плавно скрывает его через 2 секунды.
-    /// </summary>
     private IEnumerator ShowLevelBanner()
     {
         if (levelBanner == null) yield break;
 
-        // Показываем баннер на 2 секунды
         yield return new WaitForSeconds(2f);
 
-        // Плавно уменьшаем прозрачность
         float duration = 1f;
         float elapsed = 0f;
 
@@ -239,7 +225,6 @@ public class UIManager : MonoBehaviour
             yield return null;
         }
 
-        // Полностью скрываем элемент
         levelBanner.style.opacity = 0f;
         levelBanner.style.display = DisplayStyle.None;
     }

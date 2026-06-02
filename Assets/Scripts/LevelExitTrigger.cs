@@ -21,7 +21,6 @@ public class LevelExitTrigger : MonoBehaviour
 
     private void Start()
     {
-        // Проверяем наличие BoxCollider2D и что он настроен как триггер
         BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
         if (boxCollider == null)
         {
@@ -40,14 +39,11 @@ public class LevelExitTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Проверяем, что вошел игрок и триггер еще не сработал
         if (collision.CompareTag("Player") && !hasTriggered)
         {
             hasTriggered = true;
             Debug.Log($"[LevelExitTrigger] Игрок достиг выхода из уровня на {gameObject.name}. Показываем меню победы.");
 
-            // Останавливаем абсолютно ВСЕ звуки на игроке и его дочерних объектах
-            // Используем GetComponentsInChildren с includeInactive = true
             AudioSource[] allPlayerAudio = collision.GetComponentsInChildren<AudioSource>(true);
             Debug.Log($"[LevelExitTrigger] Найдено AudioSource компонентов: {allPlayerAudio.Length}");
 
@@ -61,27 +57,23 @@ public class LevelExitTrigger : MonoBehaviour
                         Debug.Log($"[LevelExitTrigger] Остановлен AudioSource на: {audio.gameObject.name}");
                     }
 
-                    // КРИТИЧНО: Полностью отключаем AudioSource, чтобы он не мог играть
                     audio.enabled = false;
                     Debug.Log($"[LevelExitTrigger] Отключен AudioSource на: {audio.gameObject.name}");
                 }
             }
 
-            // Проигрываем звук победы, если он есть
             if (winSound != null)
             {
                 AudioSource.PlayClipAtPoint(winSound, transform.position);
                 Debug.Log("[LevelExitTrigger] Проигрываем звук победы.");
             }
 
-            // Запускаем частицы победы, если они есть
             if (winParticles != null)
             {
                 winParticles.Play();
                 Debug.Log("[LevelExitTrigger] Запускаем частицы победы.");
             }
 
-            // Показываем меню победы
             if (WinMenuUI.Instance != null)
             {
                 string titleText = string.IsNullOrEmpty(customWinTitle) ? "УРОВЕНЬ ПРОЙДЕН!" : customWinTitle;
@@ -96,24 +88,22 @@ public class LevelExitTrigger : MonoBehaviour
 
     private void OnValidate()
     {
-        // Проверка в редакторе
         if (!string.IsNullOrEmpty(customWinTitle) && customWinTitle.Length > 50)
         {
             Debug.LogWarning($"[LevelExitTrigger] customWinTitle слишком длинный ({customWinTitle.Length} символов). Рекомендуется до 50 символов.");
         }
     }
 
-    // Визуализация триггера в редакторе
     private void OnDrawGizmos()
     {
         BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
         if (boxCollider != null)
         {
-            Gizmos.color = new Color(0.2f, 1f, 0.3f, 0.5f); // Зеленый полупрозрачный
+            Gizmos.color = new Color(0.2f, 1f, 0.3f, 0.5f);
             Gizmos.matrix = transform.localToWorldMatrix;
             Gizmos.DrawCube(boxCollider.offset, boxCollider.size);
 
-            Gizmos.color = new Color(0.2f, 1f, 0.3f, 1f); // Зеленый непрозрачный
+            Gizmos.color = new Color(0.2f, 1f, 0.3f, 1f);
             Gizmos.DrawWireCube(boxCollider.offset, boxCollider.size);
         }
     }

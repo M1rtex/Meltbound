@@ -28,7 +28,7 @@ public class MainMenuManager : MonoBehaviour
     private Image level4Button;
     private Image level5Button;
 
-    void Awake()
+    private void Awake()
     {
         InitializeMainMenu();
         InitializeSelectLevelMenu();
@@ -38,7 +38,7 @@ public class MainMenuManager : MonoBehaviour
         ShowMainMenu();
     }
 
-    void OnDestroy()
+    private void OnDestroy()
     {
         UnsubscribeEvents();
     }
@@ -160,7 +160,7 @@ public class MainMenuManager : MonoBehaviour
     private void OnSettingsButtonClicked()
     {
         HideMainMenu();
-        ShowSettingsMenu(); // Внутри уже вызывается LoadCurrentSettings()
+        ShowSettingsMenu();
     }
 
     private void OnQuitButtonClicked()
@@ -227,8 +227,6 @@ public class MainMenuManager : MonoBehaviour
         if (settingsPanel != null)
             settingsPanel.style.display = DisplayStyle.Flex;
 
-        // КРИТИЧНО: Принудительно обновляем UI настроек при каждом показе панели
-        // Так как панель управляется через display (а не SetActive), OnEnable не вызывается
         if (settingsMenuUI != null)
         {
             settingsMenuUI.LoadCurrentSettings();

@@ -12,16 +12,16 @@
             <ui:VisualElement name="SettingsContainer" class="buttons_container" style="flex-grow: 1; flex-direction: column; align-items: center; justify-content: space-between;">
                 <ui:VisualElement name="FPSSettings" style="flex-grow: 1;">
                     <ui:Label text="Ограничение FPS" class="slider-data-text"/>
-                    <ui:VisualElement name="SliderAndData" style="flex-grow: 1; flex-direction: row; height: 1px;">
+                    <ui:VisualElement name="SliderAndData" class="slider-and-data-frame" style="flex-grow: 1; flex-direction: row; height: 1px;">
                         <ui:SliderInt label="SliderInt" value="60" high-value="240" name="FPSSlider" show-input-field="false" fill="false" low-value="24" style="width: 456px; height: 72px; background-image: url(&quot;project://database/Assets/UI/Slider/Slider_background_core.psd?fileID=-2421057434059314875&amp;guid=15877193977307e44a5d5c34555d2404&amp;type=3#Slider_background_core_0&quot;);"/>
-                        <ui:Label text="n%" name="FPSData" class="slider-data-text" style="flex-grow: 1; flex-shrink: 1; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; flex-direction: column; -unity-text-align: middle-left; height: 72px;"/>
+                        <ui:Label text="n%" name="FPSData" class="slider-data-text" style="flex-grow: 1; flex-shrink: 1; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; flex-direction: column; height: 72px; -unity-text-align: middle-right;"/>
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="SoundSettings" style="flex-grow: 1; align-items: center;">
                     <ui:Label text="Основная громкость" name="Label" class="slider-data-text"/>
-                    <ui:VisualElement name="SliderAndData" style="flex-grow: 1; flex-direction: row; height: auto;">
+                    <ui:VisualElement name="SliderAndData" class="slider-and-data-frame" style="flex-grow: 1; flex-direction: row; height: auto;">
                         <ui:Slider label="Slider" value="0.5" high-value="1" name="SoundSlider" style="width: 456px; height: 72px; background-image: url(&quot;project://database/Assets/UI/Slider/Slider_background_core.psd?fileID=-2421057434059314875&amp;guid=15877193977307e44a5d5c34555d2404&amp;type=3#Slider_background_core_0&quot;);"/>
-                        <ui:Label text="n%" name="SoundData" class="slider-data-text" style="height: 72px;"/>
+                        <ui:Label text="n%" name="SoundData" class="slider-data-text" style="height: 72px; -unity-text-align: middle-right;"/>
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
