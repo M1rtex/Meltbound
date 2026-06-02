@@ -183,10 +183,6 @@ PrefabInstance:
       propertyPath: uiController
       value: 
       objectReference: {fileID: 281221434}
-    - target: {fileID: 8732915476346204083, guid: 9c90d0b7fa0242e4c9beb69170b502a9, type: 3}
-      propertyPath: m_Offset.x
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 779003411572904173, guid: 002b49f06f942354bbfab71156b5d641, type: 3}
       propertyPath: wallCheckSize.y
       value: 0.35

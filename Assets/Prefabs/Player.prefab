@@ -337,10 +337,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   speed: 2
   jumpForce: 7
-  minJumpForce: 3
+  minJumpForce: 2
   jumpReleaseMultiplier: 0.5
-  fallGravityMultiplier: 2
-  maxFallSpeed: 20
+  fallGravityMultiplier: 1
+  maxFallSpeed: 10
   wallJumpPower: {x: 0.8, y: 7}
   wallJumpDuration: 0.2
   jumpBufferTime: 0.2
@@ -372,7 +372,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: GameAssembly::HealthBar
   uiController: {fileID: 0}
   uiManager: {fileID: 0}
-  maxHealth: 100
+  maxHealth: 50
   decayRate: 1
   audioSource: {fileID: 4432932481262362437}
   gameOverSound: {fileID: 8300000, guid: bb9cc73a8c18e9d42a64c1d44c10cf12, type: 3}
@@ -437,7 +437,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.010908934, y: -0.025599783}
+  m_Offset: {x: 0, y: -0.025599783}
   m_Size: {x: 0.10113056, y: 0.3302557}
   m_Direction: 0
 --- !u!114 &7836614354173709279
