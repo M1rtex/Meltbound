@@ -78,7 +78,7 @@ public class SettingsManager : MonoBehaviour
     private void ApplyFPSSettings()
     {
         Application.targetFrameRate = currentFPS;
-        QualitySettings.vSyncCount = 0;
+        QualitySettings.vSyncCount = 1;
     }
 
     private void ApplyVolumeSettings()

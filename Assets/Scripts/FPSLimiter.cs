@@ -41,13 +41,13 @@ public class FPSLimiter : MonoBehaviour
             Application.targetFrameRate = fallbackFPS;
         }
 
-        QualitySettings.vSyncCount = 0;
+        QualitySettings.vSyncCount = 1;
     }
 
     private void ApplyFPSLimitFallback()
     {
         Application.targetFrameRate = fallbackFPS;
-        QualitySettings.vSyncCount = 0;
+        QualitySettings.vSyncCount = 1;
     }
 
 #if UNITY_EDITOR
@@ -63,7 +63,7 @@ public class FPSLimiter : MonoBehaviour
         if (limiter != null && limiter.limitInEditor && !Application.isPlaying)
         {
             Application.targetFrameRate = limiter.fallbackFPS;
-            QualitySettings.vSyncCount = 0;
+            QualitySettings.vSyncCount = 1;
         }
     }
 #endif
