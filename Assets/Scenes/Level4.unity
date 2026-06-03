@@ -172,6 +172,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8339511854051973882, guid: 9c90d0b7fa0242e4c9beb69170b502a9, type: 3}
+      propertyPath: decayRate
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8339511854051973882, guid: 9c90d0b7fa0242e4c9beb69170b502a9, type: 3}
+      propertyPath: maxHealth
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 8339511854051973882, guid: 9c90d0b7fa0242e4c9beb69170b502a9, type: 3}
       propertyPath: uiManager
       value: 
       objectReference: {fileID: 828322383}
