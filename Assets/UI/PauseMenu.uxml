@@ -1,11 +1,11 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <Style src="GameUI.uss" />
+    <Style src="project://database/Assets/UI/GameUI.uss?fileID=7433441132597879392&amp;guid=f13854a105ea2d54dba3a5d8988dc7de&amp;type=3#GameUI"/>
     <ui:VisualElement name="pause-overlay" class="menu-overlay">
         <ui:VisualElement name="pause-panel" class="menu-panel">
-            <ui:Label text="PAUSED" class="menu-title" />
-            <ui:Button name="resume-button" text="Resume" class="menu-button" />
-            <ui:Button name="to-menu-button" text="Выйти в меню" class="menu-button" />
-            <ui:Button name="quit-button" text="Quit" class="menu-button" />
+            <ui:Label text="Пауза" class="menu-title"/>
+            <ui:Button name="resume-button" text="Продолжить" class="menu-button"/>
+            <ui:Button name="to-menu-button" text="Выйти в меню" class="menu-button"/>
+            <ui:Button name="quit-button" text="Выйти из игры" class="menu-button"/>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

@@ -4,8 +4,8 @@
         <ui:VisualElement name="heal-vignette" class="heal-vignette" style="flex-grow: 1;"/>
         <ui:Label name="level-banner" text="Уровень 1" class="level-banner"/>
         <ui:VisualElement name="buttons-container" class="buttons-container" style="width: 166px;">
-            <ui:Button name="pause-button" text="Pause" class="game-button"/>
-            <ui:Button name="restart-button" text="Restart" class="game-button"/>
+            <ui:Button name="pause-button" text="Пауза" class="game-button"/>
+            <ui:Button name="restart-button" text="Заново" class="game-button"/>
         </ui:VisualElement>
         <ui:VisualElement name="health-container" class="health-container">
             <ui:ProgressBar name="health-bar" title="" value="100" high-value="100" class="health-bar"/>
