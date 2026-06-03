@@ -1,0 +1,171 @@
+:root {
+}
+
+.menu {
+    background-color: rgba(111, 185, 217, 0.51);
+    justify-content: center;
+    align-items: center;
+    width: 92%;
+    border-top-left-radius: 5%;
+    border-top-right-radius: 5%;
+    border-bottom-right-radius: 0%;
+    border-bottom-left-radius: 0%;
+    margin-top: 15%;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0%;
+}
+
+.panel {
+    align-items: center;
+}
+
+.button {
+    width: 90%;
+    height: 20%;
+    border-top-left-radius: 5%;
+    border-top-right-radius: 5%;
+    border-bottom-right-radius: 5%;
+    border-bottom-left-radius: 5%;
+    border-right-width: 0;
+    background-color: rgb(255, 255, 255);
+    background-image: url("project://database/Assets/Sprites/Nature%20Backgrounds%20Pixel%20Art%202/PNG/Background_3/Layer_5.png?fileID=2800000&guid=b98c17f9f3e382d4a97abcfde7423e2d&type=3#Layer_5");
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    align-content: auto;
+    aspect-ratio: auto;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 2%;
+    margin-left: 0;
+}
+
+.unity-button {
+    border-top-left-radius: 5%;
+    border-top-right-radius: 5%;
+    border-bottom-right-radius: 5%;
+    border-bottom-left-radius: 5%;
+    border-top-width: 5px;
+    border-right-width: 5px;
+    border-bottom-width: 5px;
+    border-left-width: 5px;
+    border-left-color: rgb(59, 151, 171);
+    border-right-color: rgb(59, 151, 171);
+    border-top-color: rgb(59, 151, 171);
+    border-bottom-color: rgb(59, 151, 171);
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.unity-text-element {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    -unity-font-style: normal;
+    font-size: 36px;
+    -unity-text-outline-width: 1px;
+    -unity-text-outline-color: rgb(63, 165, 188);
+    -unity-text-align: middle-center;
+    color: rgb(228, 229, 238);
+    -unity-font-definition: url("project://database/Assets/UI%20Toolkit/Fonts/NineteenEightySeven-MzMJ.ttf?fileID=12800000&guid=32dcdc183783944a2a556c29732195ee&type=3#NineteenEightySeven-MzMJ");
+}
+
+.unity-image {
+    cursor: initial;
+}
+
+.buttons_container {
+    width: 90%;
+}
+
+.button:hover {
+    -unity-background-image-tint-color: rgb(229, 229, 229);
+    scale: 1.02 1;
+}
+
+.level_button {
+}
+
+.level_button:hover {
+    scale: 1.05 1.05 1.05;
+}
+
+#FPSSlider Label {
+    display: none;
+}
+
+#FPSSlider #unity-drag-container {
+}
+
+#FPSSlider #unity-tracker {
+    flex-grow: 1;
+    top: 54%;
+    left: 0;
+    visibility: hidden;
+}
+
+#FPSSlider #unity-dragger {
+    background-image: url("project://database/Assets/UI/Slider/dragger.psd?fileID=2862147669263935415&guid=9d99e65fd168b5a40b977b0b14c60151&type=3#dragger_0");
+    height: 100px;
+    width: 100px;
+    border-left-color: rgba(160, 218, 229, 0);
+    border-right-color: rgba(160, 218, 229, 0);
+    border-top-color: rgba(160, 218, 229, 0);
+    border-bottom-color: rgba(160, 218, 229, 0);
+    top: 5%;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    background-color: rgba(0, 0, 0, 0);
+}
+
+#SoundSlider Label {
+    display: none;
+}
+
+#SoundSlider #unity-drag-container {
+}
+
+#SoundSlider #unity-tracker {
+    flex-grow: 1;
+    top: 54%;
+    left: 0;
+    visibility: hidden;
+}
+
+#SoundSlider #unity-dragger {
+    background-image: url("project://database/Assets/UI/Slider/dragger.psd?fileID=2862147669263935415&guid=9d99e65fd168b5a40b977b0b14c60151&type=3#dragger_0");
+    height: 100px;
+    width: 100px;
+    border-left-color: rgba(160, 218, 229, 0);
+    border-right-color: rgba(160, 218, 229, 0);
+    border-top-color: rgba(160, 218, 229, 0);
+    border-bottom-color: rgba(160, 218, 229, 0);
+    top: 5%;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.slider-data-text {
+    color: rgb(255, 255, 255);
+}
+
+.slider-and-data-frame {
+    flex-direction: row;
+    justify-content: space-between;
+    min-width: 725px;
+    margin-top: 20px;
+}

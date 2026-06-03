@@ -1,0 +1,30 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/MainMenuUI_styles.uss?fileID=7433441132597879392&amp;guid=064c1818518c2754fb611f1778435975&amp;type=3#MainMenuUI_styles"/>
+    <ui:VisualElement name="Panel" class="panel" style="flex-grow: 1; margin-top: 0%; margin-bottom: 0%;">
+        <ui:VisualElement name="Container" class="menu" style="flex-grow: 1; align-self: center; opacity: 1; max-height: none; aspect-ratio: auto; overflow: visible;">
+            <ui:VisualElement name="Header" style="flex-grow: 1; margin-top: -29%; flex-direction: row; justify-content: space-between; align-items: center; width: 100%; align-self: flex-start; margin-bottom: -15%;">
+                <ui:VisualElement name="ButtonsContainer" class="buttons_container" style="flex-grow: 1; height: 40%; align-content: center; flex-direction: column-reverse; align-self: center; justify-content: flex-start; align-items: center; padding-left: 0%; width: 60%; padding-right: 0%;">
+                    <ui:Button text="Назад" name="Button" class="button" style="height: 30%; width: 248px; background-image: url(&quot;project://database/Assets/UI/Button/button_background.png?fileID=-9048593517765135490&amp;guid=640f88b0766074ef7b9666e1d8225617&amp;type=3#button_background_0&quot;);"/>
+                </ui:VisualElement>
+                <ui:Label text="Настройки" style="font-size: 86px; padding-top: 10%; margin-right: 0; margin-left: 0; margin-top: 0; margin-bottom: 0; -unity-font-style: bold;"/>
+                <ui:Image source="project://database/Assets/UI/Logo/logo_gemini_1.png?fileID=-5601709513805781167&amp;guid=4400910a13bb4e84f99178bfa9d8a108&amp;type=3#logo_gemini_1_0" picking-mode="Ignore" style="margin-bottom: 0%; flex-grow: 0; scale: 0.8 0.8 0.8; transform-origin: center center 1px; translate: 0 0 1px; margin-top: 0; height: 592px; width: 1001px; position: relative; top: auto; opacity: 1; visibility: visible;"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="SettingsContainer" class="buttons_container" style="flex-grow: 1; flex-direction: column; align-items: center; justify-content: space-between;">
+                <ui:VisualElement name="FPSSettings" style="flex-grow: 1;">
+                    <ui:Label text="Ограничение FPS" class="slider-data-text"/>
+                    <ui:VisualElement name="SliderAndData" class="slider-and-data-frame" style="flex-grow: 1; flex-direction: row; height: 1px;">
+                        <ui:SliderInt label="SliderInt" value="60" high-value="240" name="FPSSlider" show-input-field="false" fill="false" low-value="24" style="width: 456px; height: 72px; background-image: url(&quot;project://database/Assets/UI/Slider/Slider_background_core.psd?fileID=-2421057434059314875&amp;guid=15877193977307e44a5d5c34555d2404&amp;type=3#Slider_background_core_0&quot;);"/>
+                        <ui:Label text="n%" name="FPSData" class="slider-data-text" style="flex-grow: 1; flex-shrink: 1; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; flex-direction: column; height: 72px; -unity-text-align: middle-right;"/>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="SoundSettings" style="flex-grow: 1; align-items: center;">
+                    <ui:Label text="Основная громкость" name="Label" class="slider-data-text"/>
+                    <ui:VisualElement name="SliderAndData" class="slider-and-data-frame" style="flex-grow: 1; flex-direction: row; height: auto;">
+                        <ui:Slider label="Slider" value="0.5" high-value="1" name="SoundSlider" style="width: 456px; height: 72px; background-image: url(&quot;project://database/Assets/UI/Slider/Slider_background_core.psd?fileID=-2421057434059314875&amp;guid=15877193977307e44a5d5c34555d2404&amp;type=3#Slider_background_core_0&quot;);"/>
+                        <ui:Label text="n%" name="SoundData" class="slider-data-text" style="height: 72px; -unity-text-align: middle-right;"/>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,0 +1,266 @@
+fileFormatVersion: 2
+guid: 18c7b3f46b98bf74a924a219e29f8b61
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -8146490635690641097
+    second: Dialog_window_0
+  - first:
+      213: 1815639857297764541
+    second: Dialog_window_1
+  - first:
+      213: 4062305380338107383
+    second: Dialog_window_2
+  - first:
+      213: 384774601818996989
+    second: Dialog_window_3
+  - first:
+      213: 5173839094815503674
+    second: Dialog_window_4
+  - first:
+      213: 231930260417101794
+    second: Dialog_window_5
+  - first:
+      213: -2636951280023836794
+    second: Dialog_window_6
+  - first:
+      213: -408065603081546086
+    second: Dialog_window_7
+  - first:
+      213: 116856770771637986
+    second: Dialog_window_8
+  - first:
+      213: -4893591667097393962
+    second: Dialog_window_9
+  - first:
+      213: 7030179539595659065
+    second: Dialog_window_10
+  - first:
+      213: 5892748290084293355
+    second: Dialog_window_11
+  - first:
+      213: 4304698725991677593
+    second: Dialog_window_12
+  - first:
+      213: 7480077553734174347
+    second: Dialog_window_13
+  - first:
+      213: -4020315358553451866
+    second: Dialog_window_14
+  - first:
+      213: 311496873759691082
+    second: Dialog_window_15
+  - first:
+      213: 5895259672247256719
+    second: Dialog_window_16
+  - first:
+      213: 7881981980615780732
+    second: Dialog_window_17
+  - first:
+      213: -2743248200398325572
+    second: Dialog_window_18
+  - first:
+      213: -3939680021744586598
+    second: Dialog_window_19
+  - first:
+      213: 6585645282533150736
+    second: Dialog_window_20
+  - first:
+      213: 7287345333446726114
+    second: Dialog_window_21
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WindowsStoreApps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Dialog_window_3
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 346
+        width: 350
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 112, y: 17, z: 90, w: 28}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df08304367ef65500800000000000000
+      internalID: 384774601818996989
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: d8ac2118343454d42852ba0e36c81291
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Dialog_window_0: -8146490635690641097
+      Dialog_window_1: 1815639857297764541
+      Dialog_window_10: 7030179539595659065
+      Dialog_window_11: 5892748290084293355
+      Dialog_window_12: 4304698725991677593
+      Dialog_window_13: 7480077553734174347
+      Dialog_window_14: -4020315358553451866
+      Dialog_window_15: 311496873759691082
+      Dialog_window_16: 5895259672247256719
+      Dialog_window_17: 7881981980615780732
+      Dialog_window_18: -2743248200398325572
+      Dialog_window_19: -3939680021744586598
+      Dialog_window_2: 4062305380338107383
+      Dialog_window_20: 6585645282533150736
+      Dialog_window_21: 7287345333446726114
+      Dialog_window_3: 384774601818996989
+      Dialog_window_4: 5173839094815503674
+      Dialog_window_5: 231930260417101794
+      Dialog_window_6: -2636951280023836794
+      Dialog_window_7: -408065603081546086
+      Dialog_window_8: 116856770771637986
+      Dialog_window_9: -4893591667097393962
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

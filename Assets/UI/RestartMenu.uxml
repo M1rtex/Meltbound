@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="GameUI.uss" />
+    <ui:VisualElement name="restart-overlay" class="menu-overlay">
+        <ui:VisualElement name="restart-panel" class="menu-panel">
+            <ui:Label text="GAME OVER" class="menu-title game-over-title" />
+            <ui:Button name="restart-button-menu" text="Restart" class="menu-button" />
+            <ui:Button name="quit-button-menu" text="Quit" class="menu-button" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

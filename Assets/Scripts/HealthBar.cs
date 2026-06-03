@@ -1,0 +1,102 @@
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class HealthBar : MonoBehaviour
+{
+    [Header("UI Toolkit")]
+    public UIController uiController;
+    public UIManager uiManager;
+
+    [Header("Settings")]
+    public float maxHealth = 100f;
+
+    [Header("Настройки убывания")]
+    public float decayRate = 1f;
+
+    [Header("Audio Settings")]
+    [SerializeField] private AudioSource audioSource; 
+    [SerializeField] private AudioClip gameOverSound; 
+
+    private float currentHealth;
+    private Animator animator;
+    private bool isDead = false;
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
+
+    private void Start()
+    {
+        currentHealth = maxHealth;
+
+        if (uiController != null)
+        {
+            uiController.UpdateHealthBar(currentHealth, maxHealth);
+        }
+
+        if (animator != null)
+        {
+            animator.SetFloat("PlayerHealth", currentHealth);
+            animator.Update(0f);
+        }
+
+        Debug.Log($"[HealthBar] Здоровье сброшено на {currentHealth}. Аниматор синхронизирован.");
+    }
+
+    private void Update()
+    {
+        if (isDead) return;
+
+        currentHealth -= decayRate * Time.deltaTime;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+
+        if (uiController != null)
+        {
+            uiController.UpdateHealthBar(currentHealth, maxHealth);
+        }
+
+        if (animator != null)
+        {
+            animator.SetFloat("PlayerHealth", currentHealth);
+        }
+
+        if (currentHealth <= 0)
+        {
+            GameOver();
+        }
+    }
+
+    public void Heal(float amount)
+    {
+        if (isDead) return;
+
+        currentHealth += amount;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+
+        if (uiController != null)
+        {
+            uiController.UpdateHealthBar(currentHealth, maxHealth);
+        }
+
+        Debug.Log("Полечились на: " + amount + ". Текущее HP: " + currentHealth);
+    }
+
+    private void GameOver()
+    {
+        isDead = true;
+        Debug.Log("Game Over! Здоровье закончилось.");
+
+        if (audioSource != null && gameOverSound != null)
+        {
+            audioSource.PlayOneShot(gameOverSound);
+        }
+
+        if (uiManager != null)
+        {
+            uiManager.ShowRestartMenu();
+        }
+
+        Time.timeScale = 0f;
+    }
+}
